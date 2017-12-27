@@ -1,0 +1,117 @@
+/* 这个css文件用于初始化所有页面 */
+
+/* 设置编码格式 */
+
+@charset "utf-8";
+
+/* 声明字体图标 */
+@font-face {
+    font-family: 'icomoon';
+    src: url('../fonts/icomoon.eot?pwlb7s');
+    src: url('../fonts/icomoon.eot?pwlb7s#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?pwlb7s') format('truetype'),
+    url('../fonts/icomoon.woff?pwlb7s') format('woff'),
+    url('../fonts/icomoon.svg?pwlb7s#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 左浮动类 */
+.fl {
+    float: left;
+}
+
+/* 右浮动类 */
+
+.fr {
+    float: right;
+}
+
+/* 初始化a标签 */
+
+a {
+    text-decoration: none;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+button,
+input,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+article,
+aside,
+details,
+figcaption,
+figure,
+#footer,
+#header,
+hgroup,
+menu,
+nav,
+section {
+    margin: 0;
+    padding: 0;
+}
+
+/*去掉li标签的小点 */
+
+li {
+    list-style: none;
+}
+
+/* 清除浮动带来的影响 */
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+    /* 这句话可以出发BFC BFC可以清除浮动,BFC我们后面讲 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* 初始化标题样式 */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+
+body {
+    margin: 0 auto;
+    width: 1280px;
+}

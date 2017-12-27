@@ -1,0 +1,313 @@
+@charset "utf-8";
+
+/* 左边栏 begin */
+
+.left-body {
+    width: 190px;
+}
+
+/* 个人信息区 begin */
+/* logo样式 */
+.left-body .logo {
+    height: 125px;
+    background: url(../images/logo.png) 45px 12px no-repeat #F7F8F8;
+}
+
+/* 个人信息样式 */
+.left-body .user-info {
+    height: 50px;
+    box-sizing: border-box;
+    background-color: #F6F6F6;
+}
+
+/* 已登入信息样式 */
+.left-body .user-info .hasLogin {
+    width: 190px;
+    height: 50px;
+}
+
+/* 个人头像样式 */
+.left-body .user-info img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* 用户名样式 */
+.left-body .user-info .username {
+    line-height: 50px;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 未登入信息样式 */
+.left-body .user-info .notLogin {
+    width: 190px;
+    height: 50px;
+    border: 1px solid #fff;
+}
+
+/* 登入图标样式 */
+.left-body .user-info .sign-in {
+    width: 95px;
+    line-height: 26px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: red;
+    display: block;
+    margin: 12px auto;
+    color: #fff;
+    text-align: center;
+}
+
+/* 个人信息区 end */
+
+/* 导航栏 begin */
+
+.left-body .navigation ul {
+    background-color: #F6F6F6;
+}
+
+.left-body .navigation ul span {
+    font-family: 'icomoon' !important;
+    color: #666666;
+    margin-right: 10px;
+}
+
+.left-body .navigation li {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #666666;
+}
+
+/* 导航栏 end */
+
+/* 左边栏 end */
+
+/* 中间栏 begin */
+
+.middle-body {
+    width: 730px;
+    margin: 0 20px;
+}
+
+/* 广告栏 begin */
+
+.middle-body .advertisement {
+    width: 730px;
+    height: 230px;
+    float: left;
+    margin-top: 10px;
+}
+
+/* 广告栏左右按键共同样式 */
+.middle-body .advertisement .left,
+.middle-body .advertisement .right {
+    line-height: 230px;
+    font-size: 80px;
+}
+
+/* 广告栏左按键单独样式 */
+.middle-body .advertisement .left {
+    text-align: left;
+    text-indent: 15px;
+}
+
+/* 广告栏右按键单独样式 */
+.middle-body .advertisement .right {
+    text-align: left;
+    text-indent: 65px;
+}
+
+/* 广告栏 end */
+
+/* 最新文章 begin */
+
+.middle-body .latest-article {
+    height: 45px;
+    width: 730px;
+    padding: 20px 0 7px 0;
+    border-bottom: 2px solid #EEEEEE;
+    box-sizing: border-box;
+    margin-top: 240px;
+}
+
+/* 最新文章盒子样式 */
+.middle-body .article1 {
+    width: 730px;
+    height: 150px;
+    border-bottom: 1px solid #F0F0F0;
+    padding-top: 10px;
+}
+
+/* 最新文章简介盒子样式 */
+.middle-body .article1 .breif-info {
+    width: 730px;
+    height: 150px;
+    float: right;
+}
+
+/* 最新文章标题样式 */
+.middle-body .article1 .breif-info h2 {
+    font-weight: 600;
+    line-height: 20px;
+}
+
+/* 最新文章作者样式 */
+.middle-body .article1 .breif-info .author {
+    float: left;
+    height: 20px;
+}
+
+/* 最新文章作者图标样式 */
+.middle-body .article1 .breif-info .author span {
+    font-family: 'icomoon';
+    font-size: 12px;
+    line-height: 20px;
+    float: left;
+    color: #C3C3C3;
+}
+
+/* 最新文章作者链接样式 */
+.middle-body .article1 .breif-info .author a {
+    font-size: 12px;
+    color: #3399CC;
+    margin-left: 5px;
+    line-height: 20px;
+    float: left;
+}
+
+/* 最新文章发表时间样式 */
+.middle-body .article1 .breif-info .time {
+    float: left;
+    height: 20px;
+}
+
+/* 最新文章发表时间样式 */
+.middle-body .article1 .breif-info .time span {
+    font-family: 'icomoon';
+    font-size: 12px;
+    margin-left: 30px;
+    float: left;
+    line-height: 20px;
+    color: #C3C3C3;
+}
+
+/* 最新文章发表时间样式 */
+.middle-body .article1 .breif-info .time p {
+    float: left;
+    line-height: 20px;
+    color: #C3C3C3;
+    margin-left: 5px;
+}
+
+/* 最新文章描述样式 */
+.middle-body .article1 .breif-info .desc {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #444444;
+}
+
+/* 最新文章 end */
+
+/* 中间栏 end */
+
+/* 右边栏 begin */
+.right-body {
+    width: 320px;
+}
+
+/* 每日一句 begin */
+.right-body .daily {
+    margin-top: 20px;
+    margin-bottom: 96px;
+    width: 320px;
+    height: 118px;
+    border: 1px solid #EEEEEE;
+}
+
+/* 每日一句名称样式 */
+.right-body .daily .name {
+    background-color: #3399CC;
+    height: 30px;
+    width: 78px;
+    line-height: 30px;
+    padding: 0 10px;
+    color: #F1F8FC;
+}
+
+/* 每日一句标题样式 */
+.right-body .daily h2 {
+    color: #3399CC;
+    margin-left: 12px;
+    margin-top: 12px;
+}
+
+/* 每日一句段落样式 */
+.right-body .daily p {
+    font-size: 12px;
+    color: #AAAAAA;
+    margin-left: 12px;
+    margin-top: 15px;
+}
+/* 每日一句 end */
+
+/* 热门学习小组 begin */
+.right-body .hot-group {
+    height: 50px;
+    width: 320px;
+    padding: 22px 0 6px 0;
+    box-sizing: border-box;
+    color: #666666;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.right-body ul li {
+    width: 320px;
+    height: 90px;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.right-body ul li .msg {
+    width: 160px;
+    height: 90px;
+    padding: 22px 0 9px 0;
+    float: left;
+    box-sizing: border-box;
+}
+
+.right-body ul li .msg span {
+    font-size: 14px;
+    color: #666666;
+}
+
+.right-body ul li .msg span:first-child {
+    height: 35px;
+    width: 160px;
+}
+
+.right-body ul li .msg span:last-child {
+    height: 30px;
+    width: 160px;
+    line-height: 30px;
+}
+
+.right-body ul li .icon {
+    width: 90px;
+    height: 90px;
+    float: right;
+}
+
+.right-body ul li .icon img {
+    width: 90px;
+    height: 90px;
+}
+
+/* 热门学习小组 end */
+
+/* 右边栏 end */
