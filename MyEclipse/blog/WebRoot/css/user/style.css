@@ -4,6 +4,12 @@
 *	Edit this section
 *
 * ======================================================= */
+
+/* 错误提示样式 */
+.hint {
+    color: #ff0000;
+}
+
 body {
   font-family: "Open Sans", Arial, sans-serif;
   line-height: 1.5;

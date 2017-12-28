@@ -23,6 +23,9 @@ function checkVerifyCode() {
     if(inputVerifyCode != verifyCodeImg){
         document.getElementById("verify-hint").innerHTML = "验证码错误";
     }
+    else {
+    	document.getElementById("verify-hint").innerHTML = "";
+    }
 }
 
 //当页面加载完毕时, 就执行的函数

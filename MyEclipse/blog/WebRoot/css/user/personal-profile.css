@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+/* 右边栏 begin */
+.right-body {
+    width: 1075px;
+    background-color: #F6F6F6;
+}
+
+/* 标题样式的设置 */
+.right-body h2 {
+    width: 100px;
+    height: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: '楷体', serif;
+    margin: 20px auto;
+    color: skyblue;
+}
+
+/* 横杠样式的设置 */
+.right-body hr {
+    border: 2px solid #ccc;
+}
+
+/* 个人资料盒子的样式设置 */
+.right-body .person-info {
+    width: 1000px;
+    border: 1px solid #F6F6F6;
+    margin: 0 auto;
+    font-family: '楷体', serif;
+}
+
+/* btnfather样式的设置 */
+.right-body .person-info .btnfather {
+    width: 1000px;
+    height: 34px;
+    margin-bottom: 20px;
+}
+
+/* 信息样式的设置 */
+.right-body .person-info .info-group {
+    width: 1000px;
+    margin-bottom: 20px;
+}
+
+/* 展示部分条目设置 */
+.right-body .person-info .info-group .key {
+    float: left;
+    width: 300px;
+    line-height: 30px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-align: right;
+}
+
+#display .info-group .value {
+    float: right;
+    width: 685px;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+/* 编辑部分条目展示 */
+#edit .cancel {
+    margin-right: 15px;
+}
+
+#edit .value {
+    float: left;
+    margin-left: 15px;
+    height: 30px;
+    line-height: 30px;
+    width: 400px;
+    outline: none;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+/* 性别条目样式设置 */
+#edit .info-group select {
+    width: 100px;
+}
+
+
+
+/* 右边栏 end */

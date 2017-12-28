@@ -17,8 +17,3 @@
     letter-spacing: 8px;
     background: url("../../images/verifybg.png");
 }
-
-/* 错误提示样式 */
-.hint {
-    color: #ff0000;
-}

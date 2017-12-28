@@ -73,4 +73,31 @@ public class UserService {
 		}
 		return user;
 	}
+
+	/**
+	 * 按邮箱查询业务
+	 * @param email
+	 * @return
+	 */
+	public User findByEmail(String email) {
+		return userDao.findByEmail(email);
+	}
+
+	/**
+	 * 按uid更新密码业务
+	 * @param uid
+	 * @param password
+	 */
+	public void updatePasswordByUid(String uid, String password) {
+		userDao.updatePasswordByUid(uid, password);
+	}
+
+	/**
+	 * 更新user的资料业务
+	 * @param user
+	 */
+	public void updateUser(User user) {
+		userDao.updateUser(user);
+	}
+
 }

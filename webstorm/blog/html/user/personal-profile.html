@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人资料</title>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/navigation.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/user/personal-profile.css"/>
+
+	<script src="../../js/jquery-3.2.1.js"></script>
+	<script src="../../js/bootstrap.js"></script>
+	<script src="../../js/user/personal-profile.js"></script>
+</head>
+<body>
+	<div class="left-body fl">
+		<div class="logo"></div>
+		<div class="user-info">
+			<!--<div class="hasLogin">-->
+			<!--<a href="#">-->
+			<!--<img src="images/head_portrait.jpg">-->
+			<!--<div class="username fl">usernameasdfasdfasdf</div>-->
+			<!--</a>-->
+			<!--</div>-->
+			<div class="notLogin">
+				<a href="#" class="sign-in">登入/注册</a>
+			</div>
+		</div>
+		<div class="navigation">
+			<ul>
+				<a href="index.html">
+					<li><span></span>网站首页</li>
+				</a>
+				<a href="htmls/article/writer.html">
+					<li><span></span>发表博文</li>
+				</a>
+				<a href="htmls/article/show.html">
+					<li><span></span>我的博文</li>
+				</a>
+				<a href="#">
+					<li><span></span>个人资料</li>
+				</a>
+				<a href="#">
+					<li><span></span>设置</li>
+				</a>
+			</ul>
+		</div>
+	</div>
+	<div class="right-body fr">
+		<h2>个人资料</h2>
+		<hr/>
+
+		<!-- 展示部分 -->
+
+		<div class="person-info" id="display">
+			<div class="btnfather">
+				<button class="btn btn-primary fr" onclick="editPersonInfo()">编辑</button>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">昵称</p>
+				<p class="value">zhangSan</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">性别</p>
+				<p class="value">男</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">简介</p>
+				<p class="value">其实我的世界并不大，但这个里一定有个你！</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">居住地</p>
+				<p class="value">江苏</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">毕业年份</p>
+				<p class="value">2019</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">学历</p>
+				<p class="value">本科</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">学校</p>
+				<p class="value">河海大学</p>
+			</div>
+			<div class="info-group clearfix">
+				<p class="key">感兴趣的工作</p>
+				<p class="value">Java工程师</p>
+			</div>
+		</div>
+
+		<!-- 修改部分, 原先是隐藏的 -->
+		<form id="editForm" method="post">
+			<div class="person-info" id="edit" hidden="hidden">
+				<div class="btnfather">
+					<button class="btn btn-primary fr save" onclick="savePersonInfo()">保存</button>
+					<button class="btn fr cancel" onclick="cancelEdit()">取消</button>
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">昵称</p>
+					<input type="text" class="value" value="zhangSan" />
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">性别</p>
+					<select class="value sex">
+						<option>男</option>
+						<option>女</option>
+					</select>
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">简介</p>
+					<input type="text" class="value" value="其实我的世界并不大，但这个里一定有个你！" />
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">居住地</p>
+					<input type="text" class="value" value="江苏" />
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">毕业年份</p>
+					<select class="value year">
+						<option>2025</option>
+						<option>2024</option>
+						<option>2023</option>
+						<option>2022</option>
+						<option>2021</option>
+						<option>2020</option>
+						<option>2019</option>
+						<option>2018</option>
+						<option>2017</option>
+						<option>2016</option>
+						<option>2015</option>
+						<option>2014</option>
+						<option>2013</option>
+						<option>2012</option>
+						<option>2011</option>
+						<option>2010</option>
+					</select>
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">学历</p>
+					<select class="value">
+						<option>博士后</option>
+						<option>博士</option>
+						<option>硕士</option>
+						<option>本科</option>
+						<option>专科</option>
+						<option>高中</option>
+						<option>初中</option>
+						<option>小学</option>
+					</select>
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">学校</p>
+					<input type="text" class="value" value="河海大学" />
+				</div>
+				<div class="info-group clearfix">
+					<p class="key">感兴趣的工作</p>
+					<input type="text" class="value" value="Java工程师" />
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

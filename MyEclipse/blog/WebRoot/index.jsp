@@ -20,9 +20,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap.css'/>">
-	<link rel="stylesheet" type="text/css" href="<c:url value='/css/base.css'/>">
-	<link rel="stylesheet" type="text/css" href="<c:url value='/css/index.css'/>">
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap.css'/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/base.css'/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/index.css'/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/navigation.css'/>" />
 
 	<script src="<c:url value='/js/jquery-3.2.1.js'/>"></script>
 	<script src="<c:url value='/js/bootstrap.js'/>"></script>
@@ -35,13 +36,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<c:choose>
           	  <c:when test="${empty sessionScope.session_user }">
 	            <div class="notLogin">
-	                <a href="<c:url value='/jsps/user/login.jsp'/>" class="sign-in">登入</a>
-	                <a href="<c:url value='/jsps/user/register.jsp'/>" class="sign-up">注册</a>
+	                <a href="<c:url value='/jsp/user/login.jsp'/>" class="sign-in">登入/注册</a>
 	            </div>
           	  </c:when>
           	  <c:otherwise>
 	            <div class="hasLogin">
-	            	<a href="#">
+	            	<a href="<c:url value='/jsp/user/filter/personal-profile.jsp'/>">
 		    			<img src="images/head_portrait.jpg" />
 		    			<div class="username fl">${sessionScope.session_user.username }</div>
 	            	</a>
@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="navigation">
 			<ul>
-				<a href="index.html">
+				<a href="<c:url value='/index.jsp'/>">
 					<li><span></span>网站首页</li>
 				</a>
 				<a href="htmls/article/writer.html">
@@ -68,6 +68,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</a>
 				<a href="#">
 					<li><span></span>关于我们</li>
+				</a>
+				<a href="<c:url value='/UserServlet?method=quit'/>">
+					<li><span></span>退出</li>
 				</a>
 			</ul>
 		</div>

@@ -33,6 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" href="<c:url value='/css/bootstrap.css'/>" />
 	<link rel="stylesheet" href="<c:url value='/css/user/animate.css'/>" />
 	<link rel="stylesheet" href="<c:url value='/css/user/style.css'/>" />
+	<link rel="stylesheet" href="<c:url value='/css/msg.css'/>" />
 
 	<script src="<c:url value='/js/modernizr-2.6.2.min.js'/>"></script>
 	<!-- jQuery -->
@@ -49,11 +50,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
      <div class="container">
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<h2>${msg }</h2>
-				
-			</div>
+		<div class="container-body">
+				<h2 class="msg">${msg }</h2>
+				<div class="form-group">
+					<a href="<c:url value='/index.jsp'/>" class="btn btn-primary">主页</a>
+					<a href="<c:url value='/jsp/user/login.jsp'/>" class="btn btn-primary">登入</a>
+					<a href="<c:url value='/jsp/user/register.jsp'/>" class="btn btn-primary">注册</a>
+				</div>
 		</div>
 		<div class="row" style="padding-top: 60px; clear: both;">
 			<div class="col-md-12 text-center"><p><small>&copy; All Rights Reserved. </small></p></div>

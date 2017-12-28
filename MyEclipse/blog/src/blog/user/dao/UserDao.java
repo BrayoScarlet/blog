@@ -56,7 +56,6 @@ public class UserDao {
 		try {
 			qr.update(sql, params);
 		}
-
 		catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -86,6 +85,40 @@ public class UserDao {
 		String sql = "update `user` set state=? where uid=?";
 		try {
 			qr.update(sql, state, uid);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 按uid更新密码
+	 * @param uid
+	 * @param password
+	 */
+	public void updatePasswordByUid(String uid, String password) {
+		String sql = "update `user` set `password`=? where uid=?";
+		try {
+			qr.update(sql, password, uid);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 按uid更新user的资料
+	 * @param user
+	 */
+	public void updateUser(User user) {
+		String sql = "update `user` set school=?, qualification=?, "
+				+ "graduation_year=?, specialisations=?, sex=?, "
+				+ "ubrief=?, domicile=? where uid=? ";
+		Object[] params = { user.getSchool(), user.getQualification(),
+				user.getGraduationYear(), user.getSpecialisations(), user.getSex(),
+				user.getUbrief(), user.getDomicile(), user.getUid() };
+		try {
+			qr.update(sql, params);
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e);

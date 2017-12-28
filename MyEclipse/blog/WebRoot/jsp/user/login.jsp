@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="hidden" name="method" value="login" />
 					<h2>账号登录</h2>
 					<!-- 提示错误信息 -->
-						<div class="hint">${msg }</div>
+					<div class="hint">${msg }</div>
 					<div class="form-group">
 						<label for="username" class="sr-only">Username</label>
 						<!--autocomplete 属性规定输入字段是否应该启用自动完成功能。-->
@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="password" name="password" class="form-control" id="password" placeholder="输入密码" autocomplete="off">
 					</div>
 					<div class="form-group">
-						<p>没有注册? <a href="sign-up.html">注册</a> | <a href="forgot.html">忘记密码?</a></p>
+						<p>没有注册? <a href="<c:url value='/jsp/user/register.jsp'/>">注册</a> | <a href="<c:url value='/jsp/user/forgot.jsp'/>">忘记密码?</a></p>
 					</div>
 					<div class="form-group">
 						<input type="submit" value="登录" class="btn btn-primary">
