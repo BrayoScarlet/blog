@@ -4,6 +4,19 @@
 *	Edit this section
 *
 * ======================================================= */
+/* 自定义样式 */
+/* 错误提示样式 */
+.hint {
+    color: #ff0000;
+}
+
+/* 按钮样式 */
+.btn-primary {
+  line-height: 38px;
+}
+
+
+/* 模板样式 */
 body {
   font-family: "Open Sans", Arial, sans-serif;
   line-height: 1.5;

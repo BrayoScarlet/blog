@@ -69,11 +69,11 @@
 
 .left-body .navigation ul {
     background-color: #F6F6F6;
+    border-radius: 5px;
 }
 
 .left-body .navigation ul span {
-    font-family: 'icomoon' !important;
-    color: #666666;
+    font-family: 'icomoon', serif !important;
     margin-right: 10px;
 }
 
@@ -84,6 +84,22 @@
     color: #666666;
 }
 
-/* 导航栏 end */
+.left-body .navigation li:hover {
+    background-color: #3399cc;
+    color: #fff !important;
+    border-radius: 5px;
+}
 
+/* 导航栏特殊样式 spacing2: 表示有两个字 */
+.left-body .navigation .spacing2 {
+    letter-spacing: 10px;
+}
+
+/* 设置当前页面的导航栏颜色 */
+.left-body .navigation .currentPage {
+    background-color: #3399cc;
+    color: #fff !important;
+    border-radius: 5px;
+}
+/* 导航栏 end */
 /* 左边栏 end */

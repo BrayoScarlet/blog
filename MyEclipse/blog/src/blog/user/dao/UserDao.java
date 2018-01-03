@@ -18,7 +18,10 @@ public class UserDao {
 	 * @return
 	 */
 	public User findByUsername(String username) {
-		String sql = "select * from `user` where username=?";
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select uid, email, username, `password`, school, qualification, "
+				+ "graduation_year as graduationYear, specialisations, sex, ubrief, "
+				+ "domicile, token, state, admin from `user` where username=?";
 		try {
 			return qr.query(sql, new BeanHandler<User>(User.class), username);
 		}
@@ -33,7 +36,9 @@ public class UserDao {
 	 * @return
 	 */
 	public User findByEmail(String email) {
-		String sql = "select * from `user` where email=?";
+		String sql = "select uid, email, username, `password`, school, qualification, "
+				+ "graduation_year as graduationYear, specialisations, sex, ubrief, "
+				+ "domicile, token, state, admin from `user` where email=?";
 		try {
 			return qr.query(sql, new BeanHandler<User>(User.class), email);
 		}
@@ -67,7 +72,9 @@ public class UserDao {
 	 * @return
 	 */
 	public User findByToken(String token) {
-		String sql = "select * from `user` where token=?";
+		String sql = "select uid, email, username, `password`, school, qualification, "
+				+ "graduation_year as graduationYear, specialisations, sex, ubrief, "
+				+ "domicile, token, state, admin from `user` where token=?";
 		try {
 			return qr.query(sql, new BeanHandler<User>(User.class), token);
 		}
@@ -119,6 +126,23 @@ public class UserDao {
 				user.getUbrief(), user.getDomicile(), user.getUid() };
 		try {
 			qr.update(sql, params);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 按uid查询user
+	 * @param uid
+	 * @return
+	 */
+	public User findByUid(String uid) {
+		String sql = "select uid, email, username, `password`, school, qualification, "
+				+ "graduation_year as graduationYear, specialisations, sex, ubrief, "
+				+ "domicile, token, state, admin from `user` where uid=?";
+		try {
+			return qr.query(sql, new BeanHandler<User>(User.class), uid);
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e);

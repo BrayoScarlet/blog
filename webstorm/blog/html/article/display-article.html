@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>博客展示</title>
+
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/navigation.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/article/display-article.css"/>
+
+	<script src="../../js/jquery-3.2.1.js"></script>
+	<script src="../../js/bootstrap.js"></script>
+</head>
+<body class="clearfix">
+	<div class="left-body fl">
+		<div class="logo"></div>
+		<div class="user-info">
+			<!--<div class="hasLogin">-->
+			<!--<a href="#">-->
+			<!--<img src="images/head_portrait.jpg">-->
+			<!--<div class="username fl">usernameasdfasdfasdf</div>-->
+			<!--</a>-->
+			<!--</div>-->
+			<div class="notLogin">
+				<a href="#" class="sign-in">登入/注册</a>
+			</div>
+		</div>
+		<div class="navigation">
+			<ul>
+				<a href="index.html">
+					<li><span></span>网站首页</li>
+				</a>
+				<a>
+					<li class="spacing2"><span></span>博客</li>
+				</a>
+				<a href="#">
+					<li><span></span>学习小组</li>
+				</a>
+				<a href="#">
+					<li><span></span>mooc检索</li>
+				</a>
+				<a href="#">
+					<li><span></span>关于我们</li>
+				</a>
+				<a href="#">
+					<li class="spacing2"><span></span>退出</li>
+				</a>
+			</ul>
+		</div>
+		<div class=""></div>
+	</div>
+	<div class="right-body fr">
+		<div class="article">
+			<div class="article-header">
+				<h1 class="article-title">我是博客的标题!</h1>
+				<div class="desc-article clearfix">
+					<div class="type-article">原创</div>
+					<div class="author">
+						<span></span><a href="#">MOOC-ALL技术博客</a>
+					</div>
+					<div class="time-article">
+						<span></span>
+						<p>2017-12-2</p>
+					</div>
+					<div class="reading">
+						<span></span>
+						<p>0</p>
+					</div>
+					<a class="praise clearfix" href="#">
+						<span></span>
+						<p>0</p>
+					</a>
+				</div>
+			</div>
+			<div class="article-body">
+				这里是文章的主要内容
+			</div>
+		</div>
+		<div class="bottom-body">
+			<form class="remark clearfix">
+				<div class="remark-user">username</div>
+				<textarea class="remark-content" placeholder="发表你的评论"></textarea>
+				<input type="submit" class="btn" value="发表评论"/>
+			</form>
+		
+			<!-- 未登入显示 -->
+			<!-- <div class="hint-login">
+				<div class="hint-txt-box">
+					<span class="hint-txt">
+						目前您尚未登录，请
+						<a href="#">登入</a> 或
+						<a href="#">注册</a>
+						后进行评论
+					</span>				
+				</div>
+			</div> -->
+		
+		
+			<div class="remarked clearfix">
+				<div class="remarked-header clearfix">
+					<div class="remarked-user clearfix">
+						<span></span><a href="#">remarkname</a>
+					</div>
+					<div class="time-remarked clearfix">
+						<span></span>
+						<p>2017-12-2</p>
+					</div>
+					<div class="remarked-order">2楼</div>
+				</div>
+				<div class="remarked-content">回复主体!</div>
+				<a class="delete-remarked">删除</a>
+			</div>
+			<div class="remarked clearfix">
+				<div class="remarked-header clearfix">
+					<div class="remarked-user clearfix">
+						<span></span><a href="#">remarkname</a>
+					</div>
+					<div class="time-remarked clearfix">
+						<span></span>
+						<p>2017-12-2</p>
+					</div>
+					<div class="remarked-order">1楼</div>
+				</div>
+				<div class="remarked-content">回复主体!</div>
+				<a class="delete-remarked">删除</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

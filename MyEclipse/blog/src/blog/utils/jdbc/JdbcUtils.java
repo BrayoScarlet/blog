@@ -68,7 +68,7 @@ public class JdbcUtils {
 	 * 提交事务
 	 * @throws SQLException
 	 */
-	public static void CommitTransaction() throws SQLException {
+	public static void commitTransaction() throws SQLException {
 		Connection con = tl.get();	//获取当前线程的事务连接
 		if (con == null) {
 			throw new SQLException("没有事务,不能提交!");

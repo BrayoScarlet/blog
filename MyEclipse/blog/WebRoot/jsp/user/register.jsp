@@ -90,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="form-group clearfix">
 						<label for="verify-code" class="sr-only">Verify Code</label>
-						<button type="button" href="#" id="verifyImg" onclick="generateVerifyCode()"></button>
+						<button type="button" id="verifyImg" onclick="generateVerifyCode()"></button>
 						<input type="hidden" name="verify-value" id="verify-value" />
 						<input type="text" name="verify-code" class="form-control" id="verify-code" placeholder="验证码" autocomplete="off" onblur="checkVerifyCode()" />
 						<!-- 提示验证码错误 -->

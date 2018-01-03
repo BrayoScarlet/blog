@@ -38,18 +38,18 @@ public class UserServlet extends BaseServlet {
 	public String register(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/*
-		* 1, 将form表单封装成bean对象
-		* 	* 验证用户名
-		* 	* 验证密码
-		* 	* 验证邮箱
-		* 	* 验证验证码
-		* 2, 判断是否有错误信息(回显)
-		* 		有, 保存错误信息到request域,转发到register.jsp
-		* 3, 补全Uid, code
-		* 4, 调用service方法完成注册
-		* 5, 发邮件
-		* 6, 保存成功信息到 msg.jsp
-		*/
+		 * 1, 将form表单封装成bean对象
+		 * 	* 验证用户名
+		 * 	* 验证密码
+		 * 	* 验证邮箱
+		 * 	* 验证验证码
+		 * 2, 判断是否有错误信息(回显)
+		 * 		有, 保存错误信息到request域,转发到register.jsp
+		 * 3, 补全Uid, code
+		 * 4, 调用service方法完成注册
+		 * 5, 发邮件
+		 * 6, 保存成功信息到 msg.jsp
+		 */
 		//建立一个Map用于记录错误信息
 		Map<String, String> errors = new HashMap<String, String>();
 
@@ -136,12 +136,12 @@ public class UserServlet extends BaseServlet {
 		}
 		catch (MessagingException e) {}
 
-		request.setAttribute("msg", "恭喜，注册成功！请马上到邮箱激活");
+		request.setAttribute("msg", "恭喜，注册成功！请马上到邮箱激活!");
 		return "f:/jsp/msg.jsp";
 	}
 
 	/**
-	 * 激活功能
+	 * 邮箱激活激活功能
 	 * @param request
 	 * @param response
 	 * @return
@@ -159,11 +159,11 @@ public class UserServlet extends BaseServlet {
 		String token = request.getParameter("token");
 		try {
 			userService.active(token);
+			request.setAttribute("msg", "恭喜，您激活成功了！请马上登入!");
 		}
 		catch (UserException e) {
 			request.setAttribute("msg", e.getMessage());
 		}
-		request.setAttribute("msg", "恭喜，您激活成功了！请马上登入!");
 		return "f:/jsp/msg.jsp";
 	}
 
@@ -197,21 +197,79 @@ public class UserServlet extends BaseServlet {
 	}
 
 	/**
-	 * 验证需要重置密码的邮箱是否已注册
+	 * 发送激活账户邮件功能邮件功能
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public String verifyEmail(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String sendActiveEmail(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		/*
-		 * 1, 验证邮箱是否已注册
-		 * 		未注册, 保存未注册信息到request域, 转发到forgot.jsp页面
-		 * 2, 发送邮件
-		 * 3, 用户在邮件中点击链接进行密码修改
+		 * 1, 从request域中获取邮箱
+		 * 2, 验证邮箱是否已注册
+		 * 		未注册, 保存未注册信息和邮箱到request域, 转发到active.jsp页面
+		 * 3, 验证邮箱是否以激活
+		 * 		已激活, 保存已激活信息和邮箱到request域, 转发到active.jsp页面
+		 * 4, 发送激活账户邮件
+		 * 5, 用户在邮件中点击链接进行激活
 		 */
+		String email = request.getParameter("email");
+		User user = userService.findByEmail(email);
+		if (user == null) {
+			request.setAttribute("msg", email + "未注册!");
+			request.setAttribute("email", email);
+			return "f:/jsp/user/active.jsp";
+		}
+		if (user.isState()) {
+			request.setAttribute("msg", email + "已激活!");
+			request.setAttribute("email", email);
+			return "f:/jsp/user/active.jsp";
+		}
+
+		//发激活邮件
+		Properties props = new Properties();
+		props.load(this.getClass().getClassLoader()
+				.getResourceAsStream("register_email.properties"));
+		String host = props.getProperty("host");//获取服务器主机
+		String uname = props.getProperty("uname");//获取用户名
+		String pwd = props.getProperty("pwd");//获取密码
+		String from = props.getProperty("from");//获取发件人
+		String to = user.getEmail();//获取收件人
+		String subject = props.getProperty("subject");//获取主题
+		String content = props.getProperty("content");//获取邮件内容
+		content = MessageFormat.format(content, user.getToken());//替换{0}
+
+		Session session = MailUtils.createSession(host, uname, pwd);//得到session
+		Mail mail = new Mail(from, to, subject, content);//创建邮件对象
+		try {
+			MailUtils.send(session, mail);//发邮件！
+		}
+		catch (MessagingException e) {}
+
+		request.setAttribute("msg", "邮件已发送,请马上到邮箱激活!");
+		return "f:/jsp/msg.jsp";
+	}
+
+	/**
+	 * 发送重置密码邮件功能
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String sendResetPasswordEmail(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1, 从request域中获取邮箱
+		 * 2, 验证邮箱是否已注册
+		 * 		未注册, 保存未注册信息到request域, 转发到forgot.jsp页面
+		 * 3, 发送重置密码邮件
+		 * 4, 用户在邮件中点击链接进行密码修改
+		 */
+
 		String email = request.getParameter("email");
 		User user = userService.findByEmail(email);
 		if (user == null) {
@@ -253,13 +311,26 @@ public class UserServlet extends BaseServlet {
 	public String resetPassword(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		/*
-		 * 1, 获取两个密码,判断其是否满足要求
+		 * 1, 获取uid, 并验证uid是否存在
+		 * 		不存在, 说明用户不是通过邮箱来重置密码的, 保存警告信息到request域, 重定向到msg.jsp页面
+		 * 2, 获取两个密码,判断其是否满足要求
 		 * 		不满足, 保存错误信息到request域, 转发到resetPassword.jsp
-		 * 2, 加密密码
-		 * 3, service方法完成更改密码
-		 * 4, 转发到login.jsp
+		 * 3, 加密密码
+		 * 4, service方法完成更改密码
+		 * 5, 转发到login.jsp
 		 */
 		String uid = request.getParameter("uid");
+		if (uid == null || uid.equals("")) {
+			request.setAttribute("msg", "请通过正常渠道重置密码! *_!");
+			return "f:/jsp/msg.jsp";
+		}
+		User user = userService.findByUid(uid);
+		if (user == null) {
+			request.setAttribute("msg", "请通过正常渠道重置密码! *_!");
+			return "f:/jsp/msg.jsp";
+		}
+
+		//当密码发生错误时, 需要转发到重置页面, 为了避免uid丢失, 先保存uid
 		request.setAttribute("uid", uid);
 		String password = request.getParameter("password");
 		if (password == null || password.trim().isEmpty()) {
@@ -314,7 +385,7 @@ public class UserServlet extends BaseServlet {
 		User form = CommonUtils.toBean(request.getParameterMap(), User.class);
 		updateUser(user, form);
 		userService.updateUser(user);
-		return "f:/jsp/user/personal-profile.jsp";
+		return "f:/jsp/user/filter/personal-profile.jsp";
 	}
 
 	/**

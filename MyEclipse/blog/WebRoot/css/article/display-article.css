@@ -1,0 +1,342 @@
+@charset "utf-8";
+
+/* 导航栏特殊样式 spacing2: 表示有两个字 */
+.left-body .navigation .spacing2 {
+    letter-spacing: 8px;
+}
+
+/* 右边栏 begin */
+.right-body {
+    width: 1070px;
+    background-color: #fff;
+}
+
+/* 文章样式 */
+.right-body .article {
+    background-color: #F6F6F6;
+}
+
+/* 博客头样式 */
+.right-body .article-header {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #565252;
+}
+
+/* 博客标题样式 */
+.right-body .article-header .article-title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 50px;
+    text-align: center;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+}
+
+/* 博客信息描述样式 */
+.right-body .article-header .desc-article {
+    height: 26px;
+    line-height: 26px;
+    color: #797676;
+}
+
+/* 博客类型样式 */
+.right-body .article-header .desc-article .type-article {
+    float: left;
+    line-height: 20px;
+    margin-right: 25px;
+    border: 1px solid #e4ebf4;
+    padding: 2px 6px;
+    margin-left: 50px;
+}
+
+/* 博客作者样式 */
+.right-body .article-header .desc-article .author {
+    float: left;
+    height: 26px;
+}
+
+/* 博客作者图标样式 */
+.right-body .article-header .desc-article .author span {
+    font-family: 'icomoon', serif;
+    font-size: 14px;
+    line-height: 26px;
+    float: left;
+    margin-right: 8px;
+}
+
+/* 博客作者链接样式 */
+.right-body .article-header .desc-article .author a {
+    font-size: 14px;
+    color: #3399CC;
+    line-height: 26px;
+    float: left;
+}
+
+/* 博客发表时间样式 */
+.right-body .article-header .desc-article .time-article {
+    float: left;
+    height: 20px;
+}
+
+/* 博客发表时间图标样式 */
+.right-body .article-header .desc-article .time-article span {
+    font-family: 'icomoon', serif;
+    font-size: 14px;
+    margin-left: 30px;
+    float: left;
+    line-height: 26px;
+}
+
+/* 博客发表时间样式 */
+.right-body .article-header .desc-article .time-article p {
+    float: left;
+    line-height: 26px;
+    margin-left: 8px;
+}
+
+/* 博客阅读量样式 */
+.right-body .article-header .desc-article .reading {
+    float: left;
+    height: 26px;
+}
+
+/* 博客阅读量图标样式 */
+.right-body .article-header .desc-article .reading span {
+    font-family: 'icomoon', serif;
+    font-size: 14px;
+    margin-left: 30px;
+    float: left;
+    line-height: 26px;
+}
+
+/* 博客阅读量样式 */
+.right-body .article-header .desc-article .reading p {
+    float: left;
+    line-height: 26px;
+    margin-left: 8px;
+}
+
+/* 博客点赞量样式 */
+.right-body .article-header .desc-article .praise {
+    width: 200px;
+    float: right;
+    height: 26px;
+}
+
+/* 博客点赞量图标样式 */
+.right-body .article-header .desc-article .praise span {
+    font-family: 'icomoon', serif;
+    font-size: 14px;
+    float: left;
+    line-height: 26px;
+}
+
+/* 博客点赞量样式 */
+.right-body .article-header .desc-article .praise p {
+    float: left;
+    line-height: 26px;
+    margin-left: 8px;
+}
+
+/* 博客主体样式 */
+.right-body .article-body {
+    padding: 10px 20px 100px 20px;
+    border: 1px solid #F6F6F6;
+}
+
+/* 底部盒子样式 */
+.right-body .bottom-body {
+    background-color: #F6F6F6;
+    padding-bottom: 100px;
+}
+
+/* 未登入信息样式 */
+.right-body .bottom-body .hint-login {
+    margin-top: 20px;
+    padding: 20px 30px 20px 30px;
+    border-bottom: 1px solid #565252;
+
+}
+
+/* 未登入信息盒子样式 */
+.right-body .bottom-body .hint-login .hint-txt-box {
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    background-color: #e7ecf0;
+    border-radius: 3px;
+}
+
+/* 登入提示连接样式 */
+.right-body .bottom-body .hint-login .hint-txt-box a {
+    color: red;
+}
+
+/* 回复盒子样式 */
+.right-body .remark {
+    margin-top: 20px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #565252;
+}
+
+/* 回复者样式 */
+.right-body .remark .remark-user {
+    height: 50px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* 回复内容盒子样式 */
+.right-body .remark .remark-content {
+    width: 1030px;
+    height: 100px;
+    padding: 10px;
+    margin: 10px 0 10px 20px;
+    resize: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* 发表评论按钮的样式 */
+.right-body .remark .btn {
+    float: right;
+    margin-right: 20px;
+    border: 1px solid #ca0c16;
+    color: #ca0c16;
+}
+
+/* 鼠标悬停在按钮上的样式 */
+.right-body .remark .btn:hover {
+    background-color: #ca0c16;
+    color: #F6F6F6;
+}
+
+/* 已回复内容样式 */
+.right-body .remarked {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #565252;;
+}
+
+/* 已回复内容头部样式 */
+.right-body .remarked .remarked-header {
+    height: 26px;
+    line-height: 26px;
+    color: #797676;
+}
+
+/* 已回复作者样式 */
+.right-body .remarked .remarked-header .remarked-user {
+    float: left;
+    height: 26px;
+    padding-left: 50px;
+}
+
+/* 已回复作者图标样式 */
+.right-body .remarked .remarked-header .remarked-user span {
+    font-family: 'icomoon', serif;
+    font-size: 14px;
+    float: left;
+    line-height: 26px;
+}
+
+/* 已回复作者图标样式 */
+.right-body .remarked .remarked-header .remarked-user a {
+    font-size: 14px;
+    color: #3399CC;
+    line-height: 26px;
+    float: left;
+    margin-left: 10px;
+}
+
+/* 已回复时间样式 */
+.right-body .remarked .remarked-header .time-remarked {
+    float: left;
+    height: 26px;
+    padding-left: 20px;
+}
+
+/* 已回复时间图标样式 */
+.right-body .remarked .remarked-header .time-remarked span {
+    font-family: 'icomoon', serif;
+    font-size: 14px;
+    float: left;
+    line-height: 26px;
+}
+
+/* 已回复时间样式 */
+.right-body .remarked .remarked-header .time-remarked p {
+    float: left;
+    line-height: 26px;
+    margin-left: 8px;
+}
+
+/* 已回复次序样式 */
+.right-body .remarked .remarked-header .remarked-order {
+    float: right;
+    line-height: 26px;
+    margin-left: 8px;
+    margin-right: 100px;
+}
+
+/* 回复主体样式 */
+.right-body .remarked .remarked-content {
+    padding: 10px 20px 20px 50px;
+}
+
+/* 删除按钮样式 */
+.right-body .remarked .delete-remarked {
+    float: right;
+    margin-right: 100px;
+    color: red;
+}
+/* 右边栏 end */
+
+
+/* 用于修饰showdown解析后的文字作修饰 */
+#article-content h3 {
+	font-size: 24px;
+	margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    box-sizing: border-box;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+#article-content pre {
+    padding: 9.5px;
+    margin: 0 0 10px;
+}
+
+#article-content ol,
+#article-content ul {
+    padding: 10px 0 10px 20px;
+}
+
+#article-content li {
+	display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+#article-content ul li {
+    list-style-type: disc;
+}
+
+ol li {
+	list-style-type: decimal;
+}
+
+
+

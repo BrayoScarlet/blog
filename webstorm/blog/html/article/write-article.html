@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>发表博客</title>
+	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="../../markdown/css/bootstrap-markdown.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../markdown/font-awesome/css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/base.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/navigation.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/article/jquery.growl.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/article/write-article.css"/>
+
+</head>
+<body>
+	<div class="left-body fl">
+		<div class="logo"></div>
+		<div class="user-info">
+			<!--<div class="hasLogin">-->
+			<!--<a href="#">-->
+			<!--<img src="images/head_portrait.jpg">-->
+			<!--<div class="username fl">usernameasdfasdfasdf</div>-->
+			<!--</a>-->
+			<!--</div>-->
+			<div class="notLogin">
+				<a href="#" class="sign-in">登入/注册</a>
+			</div>
+		</div>
+		<div class="navigation">
+			<ul>
+				<a href="index.html">
+					<li><span></span>网站首页</li>
+				</a>
+				<a href="htmls/article/writer.html">
+					<li><span></span>发表博客</li>
+				</a>
+				<a href="htmls/article/show.html">
+					<li><span></span>我的博客</li>
+				</a>
+				<a href="#">
+					<li><span></span>个人资料</li>
+				</a>
+				<a href="#">
+					<li class="spacing2"><span></span>设置</li>
+				</a>
+				<a href="#">
+					<li class="spacing2"><span></span>退出</li>
+				</a>
+			</ul>
+		</div>
+		<div class=""></div>
+	</div>
+	<div class="right-body fr">
+		<h1 class="right-body-title">发表博客</h1>
+		<form id="articleForm">
+			<div class="article-title">
+				<div class="desc-title">文章标题</div>
+				<div class="title-father">
+					<select class="article-type">
+						<option>请选择</option>
+						<option>原创</option>
+						<option>转载</option>
+						<option>翻译</option>
+					</select>
+					<input type="text" class="content-title" autofocus placeholder="输入文章标题" />
+				</div>
+			</div>
+			<div class="article-content">
+				<div class="desc-content">文章内容</div>
+				<textarea data-provide="markdown" data-iconlibrary="fa" rows="10" id="editor"></textarea>
+			</div>
+			<div class="article-classify">
+				<div class="desc-classify">文章分类</div>
+				<select class="content-classify">
+					<option>选择分类</option>
+					<option>Java高级开发</option>
+					<option>数据库</option>
+					<option>软件工程</option>
+					<option>算法与数据结构</option>
+					<option>C语言</option>
+					<option>C++</option>
+				</select>
+			</div>
+			<div class="article-abstract">
+				<div class="desc-abstract">摘要:(默认自动提取您文章的前两百字显示在博客首页作为文章摘要,您也可以在这里自行编辑)</div>
+				<textarea class="content-abstract"></textarea>
+			</div>
+			<p class="hint-p">提示：请不要发布任何推广、广告（包括招聘）、政治、低俗等方面的内容，不要把博客当作SEO工具，否则可能会影响到您的使用。</p>
+			<button type="button" class="btn btn-primary" id="btn-publish" onclick="checkArticleComplete()">发表文章</button>
+		</form>
+	</div>
+
+
+	<!-- 引入JS文件 -->
+	<script src="../../js/jquery-3.2.1.js"></script>
+	<script src="../../js/bootstrap.js"></script>
+	<script src="../../markdown/js/markdown.js"></script>
+	<script src="../../markdown/js/to-markdown.js"></script>
+	<script src="../../markdown/js/bootstrap-markdown.js"></script>
+	<script src="../../markdown/js/bootstrap-markdown.fr.js"></script>
+	<script src="../../markdown/js/hint-style.js"></script>
+	<script src="../../markdown/js/showdown.js"></script>
+	<script src="../../js/article/jquery.growl.js"></script>
+	<script src="../../js/article/write-article.js"></script>
+</body>
+</html>

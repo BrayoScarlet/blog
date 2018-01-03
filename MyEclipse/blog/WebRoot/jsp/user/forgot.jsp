@@ -55,13 +55,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- Start -->
 				<form action="<c:url value='/UserServlet'/>" method="post" class="fh5co-form animate-box" data-animate-effect="fadeIn">
 					<!-- 用隐藏的input传递希望在UserServlet中调用的方法  -->
-					<input type="hidden" name="method" value="verifyEmail" />
+					<input type="hidden" name="method" value="sendResetPasswordEmail" />
 					<h2>忘记密码</h2>
 					<!-- 提示错误信息 -->
 					<div class="hint">${msg }</div>
 					<div class="form-group">
 						<label for="email" class="sr-only">Email</label>
-						<input type="email" name="email" class="form-control" id="email" placeholder="邮箱" autocomplete="off">
+						<input type="email" name="email" value="${email }" class="form-control" id="email" placeholder="邮箱" autocomplete="off">
 					</div>
 					<div class="form-group">
 						<p><a href="<c:url value='/jsp/user/login.jsp'/>">登录</a> or <a href="<c:url value='/jsp/user/register.jsp'/>">注册</a></p>

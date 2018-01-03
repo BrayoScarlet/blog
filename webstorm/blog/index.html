@@ -6,8 +6,8 @@
 
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="css/base.css" />
-	<link rel="stylesheet" type="text/css" href="css/index.css" />
 	<link rel="stylesheet" type="text/css" href="css/navigation.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
 
 	<script src="js/jquery-3.2.1.js"></script>
 	<script src="js/bootstrap.js"></script>
@@ -31,13 +31,10 @@
 		<div class="navigation">
 			<ul>
 				<a href="index.html">
-					<li><span></span>网站首页</li>
+					<li class="currentPage"><span></span>网站首页</li>
 				</a>
-				<a href="htmls/article/writer.html">
-					<li><span></span>发表博文</li>
-				</a>
-				<a href="htmls/article/show.html">
-					<li><span></span>我的博文</li>
+				<a>
+					<li class="spacing2"><span></span>博客</li>
 				</a>
 				<a href="#">
 					<li><span></span>学习小组</li>
@@ -48,9 +45,11 @@
 				<a href="#">
 					<li><span></span>关于我们</li>
 				</a>
+				<a href="#">
+					<li class="spacing2"><span></span>退出</li>
+				</a>
 			</ul>
 		</div>
-		<div class=""></div>
 	</div>
 	<div class="middle-body fl clearfix">
 		<div id="myCarousel" class="carousel slide advertisement">
@@ -80,20 +79,28 @@
 			   data-slide="next">&rsaquo;
 			</a>
 		</div>
-		<div class="latest-article">最新文章
-		</div>
-		<div class="article1">
+		<div class="latest-article">最新文章</div>
+		<div class="article clearfix">
 			<div class="breif-info">
-				<h2>MOOC-ALL博客正式上线!</h2>
+				<a class="article-title" href="#">MOOC-ALL博客正式上线!</a>
 				<div class="desc">
-					欢迎来到个人技术博客技术博客，在这里可以看到网站前端和后端的技术，还有CMS内容管理系统，包括但不限于这些还有CMS内容管理系统，包括但不限于这些。
+					欢迎来到个人技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端技术博客技术博客，在这里可以看到网站前端和后端的技术，还有CMS内容管理系统，包括但不限于这些还有CMS内容管理系统，包括但不限于这些。
 				</div>
-				<div class="author">
-					<span></span><a href="#">MOOC-ALL技术博客</a>
-				</div>
-				<div class="time">
-					<span></span>
-					<p>2017-12-2</p>
+				<div class="bottom-father clearfix">
+					<div class="type-article">原创</div>
+					<div class="author">
+						<span></span><a href="#">MOOC-ALL技术博客</a>
+					</div>
+					<div class="time">
+						<span></span>
+						<p>2017-12-2</p>
+					</div>
+					<div class="reading">
+						<span></span><p>0</p>
+					</div>
+					<div class="remark">
+						<span></span><p>0</p>
+					</div>
 				</div>
 			</div>
 		</div>

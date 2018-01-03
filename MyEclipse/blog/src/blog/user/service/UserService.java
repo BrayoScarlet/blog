@@ -100,4 +100,13 @@ public class UserService {
 		userDao.updateUser(user);
 	}
 
+	/**
+	 * 根据uid查询user业务
+	 * @param uid
+	 * @return
+	 */
+	public User findByUid(String uid) {
+		return userDao.findByUid(uid);
+	}
+
 }

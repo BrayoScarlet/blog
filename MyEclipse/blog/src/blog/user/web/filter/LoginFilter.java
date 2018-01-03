@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import blog.user.domain.User;
 
 @WebFilter(dispatcherTypes = { DispatcherType.REQUEST },
-		urlPatterns = { "/jsp/user/filter/*" })
+		urlPatterns = { "/jsp/user/filter/*", "/jsp/article/filter/*" })
 public class LoginFilter implements Filter {
 
 	public void destroy() {}

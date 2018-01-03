@@ -70,6 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="form-group">
 						<p>没有注册? <a href="<c:url value='/jsp/user/register.jsp'/>">注册</a> | <a href="<c:url value='/jsp/user/forgot.jsp'/>">忘记密码?</a></p>
+						<p>没有激活? <a href="<c:url value='/jsp/user/active.jsp'/>">激活</a></p>
 					</div>
 					<div class="form-group">
 						<input type="submit" value="登录" class="btn btn-primary">

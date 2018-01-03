@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+/* 导航栏特殊样式 spacing2: 表示有两个字 */
+.left-body .navigation .spacing2 {
+    letter-spacing: 8px;
+}
+
+/* 标题的特殊样式 */
+.right-body .user-blog {
+    letter-spacing: 50px;
+}
+
+
+/* 搜索框样式 */
+.right-body .article-box .search {
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+}
+
+/* 关键词输入框样式 */
+.right-body .article-box .search .key-word {
+	width: 500px;
+	height: 30px;
+	padding-left: 10px;
+	border: 1px solid #b8b8b8;
+}
+
+/* 搜索按钮样式 */
+
+
+

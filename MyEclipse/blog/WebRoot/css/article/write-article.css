@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+/* 右边栏 begin */
+.right-body {
+    width: 1070px;
+    padding-bottom: 100px;
+    border: 1px solid #fff;
+}
+
+/* 右边栏标题样式 */
+.right-body .right-body-title {
+    height: 100px;
+    line-height: 50px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    font-size: 20px;
+    font-family: "楷体", serif;
+    font-weight: 700;
+    letter-spacing: 8px;
+    text-align: center;
+    color: skyblue;
+    border-bottom: 1px solid #ccc;
+}
+
+/* 博客标题盒子样式 */
+.right-body .article-title {
+    height: 85px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* 博客标题描述样式 */
+.right-body .article-title .desc-title {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px dotted #b7b4b4;
+    color: #999;
+}
+
+/* 博客标题内容父盒子样式 */
+.right-body .article-title .title-father {
+    height: 35px;
+    padding-top: 10px;
+}
+
+/* 博客类型盒子样式 */
+.right-body .article-title .title-father .article-type {
+    height: 25px;
+    border-radius: 3px;
+}
+
+/* 博客标题内容样式 */
+.right-body .article-title .title-father .content-title {
+    width: 560px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+/* 博客内容盒子样式 */
+.right-body .article-content .desc-content {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px dotted #b7b4b4;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+/* 编辑器样式 */
+.right-body .article-content #editor {
+    padding: 20px;
+    background-color: #fff;
+}
+
+/* 博客分类盒子样式 */
+.right-body .article-classify .desc-classify {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px dotted #b7b4b4;
+    color: #999;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* 博客分类内容样式 */
+.right-body .article-classify .content-classify {
+    line-height: 30px;
+    height: 30px;
+    width: 200px;
+    padding-left: 10px;
+    border-radius: 3px;
+}
+
+/* 博客摘要盒子样式 */
+.right-body .article-abstract .desc-abstract {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px dotted #b7b4b4;
+    color: #999;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* 博客摘要信息内容样式 */
+.right-body .article-abstract .content-abstract {
+    width: 1070px;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+}
+
+/* 博客提示信息样式 */
+.right-body .hint-p {
+    line-height: 30px;
+    text-indent: 2em;
+    border-bottom: 1px dotted #b7b4b4;
+    margin-bottom: 10px;
+}
+
+/* 发表文章按钮样式 */
+.right-body #btn-publish {
+    display: block;
+    margin: 0 auto;
+}
+/* 右边栏 end */
+
+

@@ -1,8 +1,5 @@
-/* 这个css文件用于初始化所有页面 */
-
-/* 设置编码格式 */
-
 @charset "utf-8";
+/* 这个css文件用于初始化所有页面 */
 
 /* 声明字体图标 */
 @font-face {
@@ -99,7 +96,6 @@ li {
 }
 
 /* 初始化标题样式 */
-
 h1,
 h2,
 h3,
@@ -110,8 +106,9 @@ h6 {
     font-weight: normal;
 }
 
-
 body {
     margin: 0 auto;
     width: 1280px;
 }
+
+

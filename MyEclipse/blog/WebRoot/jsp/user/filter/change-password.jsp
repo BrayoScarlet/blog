@@ -43,7 +43,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           	  </c:when>
           	  <c:otherwise>
 	            <div class="hasLogin">
-	            	<a href="<c:url value='/jsp/user/filter/personal-profile.jsp'/>">
+	            	<!-- 点击用户名进入个人博客页面 -->
+	            	<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
 		    			<img src="images/head_portrait.jpg" />
 		    			<div class="username fl">${sessionScope.session_user.username }</div>
 	            	</a>
@@ -53,27 +54,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="navigation">
 			<ul>
-				<a href="index.html">
+				<a href="<c:url value='/index.jsp'/>">
 					<li><span></span>网站首页</li>
 				</a>
-				<a href="htmls/article/writer.html">
-					<li><span></span>发表博文</li>
+				<a href="<c:url value='/jsp/article/filter/write-article.jsp'/>">
+					<li><span></span>发表博客</li>
 				</a>
-				<a href="htmls/article/show.html">
-					<li><span></span>我的博文</li>
+				<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
+					<li><span></span>我的博客</li>
 				</a>
 				<a href="<c:url value='/jsp/user/filter/personal-profile.jsp'/>">
-					<li><span></span>个人资料</li>
+					<li><span></span>个人资料</li>
 				</a>
 				<a href="<c:url value='/jsp/user/filter/change-password.jsp'/>">
-					<li><span></span>修改密码</li>
+					<li class="spacing2 currentPage"><span></span>设置</li>
 				</a>
 				<a href="<c:url value='/UserServlet?method=quit'/>">
-					<li><span></span>退出</li>
+					<li class="spacing2"><span></span>退出</li>
 				</a>
 			</ul>
 		</div>
-		<div class=""></div>
 	</div>
 	<div class="right-body fr">
 		<h2>修改密码</h2>
