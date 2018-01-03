@@ -158,4 +158,135 @@ public class ArticleService {
 		articleDao.updateArticle(article);
 	}
 
+	/**
+	 * 按关键词数组查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Article> findArticlesByKeyWords(String[] keyWords) {
+		/*
+		 * 首先判断keyWords中的第一个字符串是否为""(空字符串)
+		 * 		如果为"", 说明没有关键词, 直接返回findAllArticles
+		 * 
+		 * 关键词匹配方法: 按标题, 按分类, 按摘要, 按内容
+		 * 1, 根据关键词数组通过articleDao方法获取文章记录, 并封装到List<Map>里返回
+		 * 2, 将所有的List合并, 并去重
+		 * 
+		 * 3, 通过CommonUtils.toBean方法, 构造Article对象
+		 * 4, 根据map里的uid, 通过userDao方法, 获取对应的user对象
+		 * 5, 将user对象赋给对应的article对象
+		 * 6, 将所有的article对象放到list容器中, 返回
+		 */
+		if (keyWords.length == 1 && keyWords[0].equals("")) {
+			return findAllArticles();
+		}
+		List<Article> articleList = new ArrayList<Article>();
+		//按标题匹配
+		List<Map<String, Object>> titleListMap =
+				articleDao.findArticleRecordsByKeyWordsMatchTitle(keyWords);
+		//按分类
+		List<Map<String, Object>> classifyListMap =
+				articleDao.findArticleRecordsByKeyWordsMatchClassify(keyWords);
+		//按摘要
+		List<Map<String, Object>> abstractListMap =
+				articleDao.findArticleRecordsByKeyWordsMatchAbstract(keyWords);
+		//按内容
+		List<Map<String, Object>> contentListMap =
+				articleDao.findArticleRecordsByKeyWordsMatchContent(keyWords);
+
+		//合并List, 并去重
+		List<Map<String, Object>> listMap = mergeAndRemovalDuplicateList(titleListMap,
+				classifyListMap, abstractListMap, contentListMap);
+
+		for (Map<String, Object> eleMap : listMap) {
+			Article article = CommonUtils.toBean(eleMap, Article.class);
+			User author = userDao.findByUid(eleMap.get("uid") + "");
+			article.setAuthor(author);
+			articleList.add(article);
+		}
+		return articleList;
+	}
+
+	/**
+	 * 合并List, 并去重
+	 * @param titleListMap
+	 * @param classifyListMap
+	 * @param abstractListMap
+	 * @param contentListMap
+	 * @return
+	 */
+	private List<Map<String, Object>> mergeAndRemovalDuplicateList(
+			List<Map<String, Object>> titleListMap,
+			List<Map<String, Object>> classifyListMap,
+			List<Map<String, Object>> abstractListMap,
+			List<Map<String, Object>> contentListMap) {
+		List<Map<String, Object>> listMap =
+				new ArrayList<Map<String, Object>>(titleListMap);
+		for (Map<String, Object> map : classifyListMap) {
+			if (!listMap.contains(map)) {
+				listMap.add(map);
+			}
+		}
+		for (Map<String, Object> map : abstractListMap) {
+			if (!listMap.contains(map)) {
+				listMap.add(map);
+			}
+		}
+		for (Map<String, Object> map : contentListMap) {
+			if (!listMap.contains(map)) {
+				listMap.add(map);
+			}
+		}
+		return listMap;
+	}
+
+	/**
+	 * 按uid和关键词数组查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Article> findArticlesByUidAndKeyWords(String uid, String[] keyWords) {
+		/*
+		 * 首先判断keyWords中的第一个字符串是否为""(空字符串)
+		 * 		如果为"", 说明没有关键词, 直接返回findArticlesByUid()
+		 * 
+		 * 关键词匹配方法: 按标题, 按分类, 按摘要, 按内容
+		 * 1, 根据关键词数组通过articleDao方法获取文章记录, 并封装到List<Map>里返回
+		 * 2, 将所有的List合并, 并去重
+		 * 
+		 * 3, 通过CommonUtils.toBean方法, 构造Article对象
+		 * 4, 根据uid, 通过userDao方法, 获取对应的user对象
+		 * 5, 将user对象赋给对应的article对象
+		 * 6, 将所有的article对象放到list容器中, 返回
+		 */
+		if (keyWords.length == 1 && keyWords[0].equals("")) {
+			return findAllArticles();
+		}
+		List<Article> articleList = new ArrayList<Article>();
+		//按标题匹配
+		List<Map<String, Object>> titleListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchTitle(uid, keyWords);
+		//按分类
+		List<Map<String, Object>> classifyListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchClassify(uid, keyWords);
+		//按摘要
+		List<Map<String, Object>> abstractListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchAbstract(uid, keyWords);
+		//按内容
+		List<Map<String, Object>> contentListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchContent(uid, keyWords);
+
+		//合并List, 并去重
+		List<Map<String, Object>> listMap = mergeAndRemovalDuplicateList(titleListMap,
+				classifyListMap, abstractListMap, contentListMap);
+
+		for (Map<String, Object> eleMap : listMap) {
+			Article article = CommonUtils.toBean(eleMap, Article.class);
+			User author = userDao.findByUid(uid);
+			article.setAuthor(author);
+			articleList.add(article);
+		}
+		return articleList;
+	}
+
 }

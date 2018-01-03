@@ -6,7 +6,12 @@ public class StringTest {
 
 	@Test
 	public void fun1() {
-		String str = "12345";
-		System.out.println(str.substring(0, 5));
+		String str = "       ";
+		System.out.println("=========" + str.trim() + "==========");
+		String[] strings = str.trim().split(" +");
+		System.out.println(strings.length);
+		for (String string : strings) {
+			System.out.println("=========" + string + "============");
+		}
 	}
 }

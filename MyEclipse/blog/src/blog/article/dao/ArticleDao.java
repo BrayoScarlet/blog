@@ -21,12 +21,12 @@ public class ArticleDao {
 	 * @param article
 	 */
 	public void addArticle(Article article) {
-		String sql = "insert into article values(?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into article values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		Object[] params = { article.getAid(), article.getAuthor().getUid(),
 				article.getAtitle(), article.getType(), article.getAcontent(),
 				article.getClassify(), article.getAbstractContent(),
 				article.getPraiseNum(), article.getRemarkNum(), article.getReadNum(),
-				new Timestamp(article.getAtime().getTime()) };
+				new Timestamp(article.getAtime().getTime()), article.getVerify() };
 		try {
 			qr.update(sql, params);
 		}
@@ -46,8 +46,8 @@ public class ArticleDao {
 		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
 		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
 				+ "abstract as abstractContent, praise_num as praiseNum, "
-				+ "remark_num as remarkNum, read_num as readNum, atime from article "
-				+ "order by atime desc";
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 order by atime desc";
 		try {
 			return qr.query(sql, new MapListHandler());
 		}
@@ -67,8 +67,8 @@ public class ArticleDao {
 		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
 		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
 				+ "abstract as abstractContent, praise_num as praiseNum, "
-				+ "remark_num as remarkNum, read_num as readNum, atime from article "
-				+ "where aid=?";
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and aid=?";
 		try {
 			return qr.query(sql, new MapHandler(), aid);
 		}
@@ -88,8 +88,8 @@ public class ArticleDao {
 		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
 		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
 				+ "abstract as abstractContent, praise_num as praiseNum, "
-				+ "remark_num as remarkNum, read_num as readNum, atime from article "
-				+ "where author_uid=? order by atime desc";
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and author_uid=? order by atime desc";
 		try {
 			return qr.query(sql, new MapListHandler(), uid);
 		}
@@ -111,8 +111,8 @@ public class ArticleDao {
 		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
 		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
 				+ "abstract as abstractContent, praise_num as praiseNum, "
-				+ "remark_num as remarkNum, read_num as readNum, atime from article "
-				+ "order by atime desc limit ?, ?";
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 order by atime desc limit ?, ?";
 		try {
 			return qr.query(sql, new MapListHandler(), begin, length);
 		}
@@ -165,5 +165,194 @@ public class ArticleDao {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	/**
+	 * 根据关键词数组匹配博客标题查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>>
+			findArticleRecordsByKeyWordsMatchTitle(String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and atitle like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 生成匹配字符串
+	 * @param length
+	 * @return
+	 */
+	private String generalMatchStringByKeyWords(String[] keyWords) {
+		String matchString = "%";
+		for (int i = 0; i < keyWords.length; i++) {
+			matchString += (keyWords[i] + "%");
+		}
+		return matchString;
+	}
+
+	/**
+	 * 根据关键词数组匹配博客分类查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>>
+			findArticleRecordsByKeyWordsMatchClassify(String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and classify like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 根据关键词数组匹配博客摘要查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>>
+			findArticleRecordsByKeyWordsMatchAbstract(String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and abstract like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 根据关键词数组匹配博客内容查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>>
+			findArticleRecordsByKeyWordsMatchContent(String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and acontent like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 根据uid和关键词数组匹配博客标题查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>>
+			findArticleRecordsByUidAndKeyWordsMatchTitle(String uid, String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and author_uid=? and atitle like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), uid, matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 根据uid和关键词数组匹配博客分类查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>> findArticleRecordsByUidAndKeyWordsMatchClassify(
+			String uid, String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and author_uid=? and classify like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), uid, matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 根据uid和关键词数组匹配博客摘要查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>> findArticleRecordsByUidAndKeyWordsMatchAbstract(
+			String uid, String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and author_uid=? and abstract like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), uid, matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 根据uid和关键词数组匹配博客内容查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Map<String, Object>> findArticleRecordsByUidAndKeyWordsMatchContent(
+			String uid, String[] keyWords) {
+		//生成匹配字符串
+		String matchString = generalMatchStringByKeyWords(keyWords);
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and author_uid=? and acontent like ? order by atime desc";
+		try {
+			return qr.query(sql, new MapListHandler(), uid, matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

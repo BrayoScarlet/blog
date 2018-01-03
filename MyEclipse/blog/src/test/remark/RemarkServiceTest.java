@@ -16,7 +16,7 @@ public class RemarkServiceTest {
 	@Test
 	public void testFindRemarkByArticle() {
 		Article article = new Article("111ADC3E36A74516A340E1E30B2C5D9D", null, null,
-				null, null, null, null, null, null, null, null);
+				null, null, null, null, null, null, null, null, 0);
 		remarkService.findRemarksByArticle(article);
 	}
 
@@ -38,7 +38,7 @@ public class RemarkServiceTest {
 			User author = new User("601D6287BFC041CD8E36D7C7FDDCD8D1", rid, rid, rid, rid,
 					rid, rid, rid, rid, rid, rid, rid, false, i);
 			Article article = new Article("F97CC7B9B9634F6085EC43687A91D7DD", null, rid,
-					rid, rid, rid, rid, null, null, null, null);
+					rid, rid, rid, rid, null, null, null, null, 0);
 			String rcontent = "我是回复" + i;
 			Date rtime = new Date();
 			Remark remark = new Remark(rid, author, article, rcontent, rtime);

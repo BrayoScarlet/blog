@@ -8,7 +8,6 @@ body {
 /* 右边栏 begin */
 .right-body {
     width: 1070px;
-    padding-bottom: 100px;
 }
 
 /* 右边栏头部样式 */
@@ -42,6 +41,44 @@ body {
 /* 博客盒子样式 */
 .right-body .article-box {
     background-color: #F6F6F6;
+    padding-bottom: 100px;
+}
+
+/* 搜索框样式 */
+.right-body .article-box .search {
+    height: 100px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    text-align: center;
+    border-bottom: 1px dotted #565252;
+}
+
+/* 关键词输入框样式 */
+.right-body .article-box .search .key-word {
+    width: 500px;
+    height: 30px;
+    padding-left: 10px;
+    border: 1px solid #b8b8b8;
+    outline: none;
+}
+
+/* 关键词输入框获取到焦点时的样式 */
+.right-body .article-box .search .key-word:focus {
+    border: 1px solid #38f;
+}
+
+/* 搜索按钮样式 */
+.right-body .article-box .search .search-btn {
+    width: 80px;
+    height: 30px;
+    border: none;
+    color: #fff;
+    background-color: #38f;
+}
+
+/* 鼠标悬浮到搜索按钮上时样式 */
+.right-body .article-box .search .search-btn:hover {
+    background-color: #317ef3;
 }
 
 /* 每条博客的盒子样式 */

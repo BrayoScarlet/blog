@@ -81,6 +81,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<p class="ubrief">${sessionScope.session_user.ubrief }</p>
 		</div>
 		<div class="article-box clearfix">
+			<form action="<c:url value='/ArticleServlet'/>" method="post" class="search">
+				<input type="hidden" name="method" value="findMyArticlesByKeyWords" />
+				<input type="text" class="key-word" autofocus name="key-word" value="${keyWord }" placeholder="请输入关键词" /><input type="submit" class="search-btn" value="搜索" />
+			</form>
 		<c:forEach items="${articleList }" var="article">
 			<div class="breif-info">
 				<a class="article-title" href="<c:url value='/ArticleServlet?method=findArticleByAid&aid=${article.aid }'/>">${article.atitle }</a>

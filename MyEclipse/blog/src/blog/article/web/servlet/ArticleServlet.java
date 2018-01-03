@@ -26,6 +26,59 @@ public class ArticleServlet extends BaseServlet {
 	private ReadRecordService readRecordService = new ReadRecordService();
 
 	/**
+	 * 搜索我的博客功能
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String findMyArticlesByKeyWords(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1, 从session中获取user对象
+		 * 2, 从请求参数中获取关键词参数
+		 * 3, 将请求参数按空格分割
+		 * 4, 根据uid和关键词数组, 调用articleService方法, 查询相关的博客List<Article>
+		 * 5, 保存List<Article>到request域中, 保存keyWord到request域, 用于回显
+		 * 6, 转发到my-article.jsp
+		 */
+		User user = (User) request.getSession().getAttribute("session_user");
+		String keyWord = request.getParameter("key-word");
+		String[] keyWords = keyWord.trim().split(" +");
+		List<Article> articleList =
+				articleService.findArticlesByUidAndKeyWords(user.getUid(), keyWords);
+		request.setAttribute("articleList", articleList);
+		request.setAttribute("keyWord", keyWord);
+		return "f:/jsp/article/all-article.jsp";
+	}
+
+	/**
+	 * 按关键词查找博客功能
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String findArticlesByKeyWords(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1, 从请求参数中获取关键词参数
+		 * 2, 将请求参数按空格分割
+		 * 3, 调用articleService方法, 查询相关的博客List<Article>
+		 * 4, 保存List<Article>到request域中, 保存keyWord到request域, 用于回显
+		 * 5, 转发到all-article.jsp
+		 */
+		String keyWord = request.getParameter("key-word");
+		String[] keyWords = keyWord.trim().split(" +");
+		List<Article> articleList = articleService.findArticlesByKeyWords(keyWords);
+		request.setAttribute("articleList", articleList);
+		request.setAttribute("keyWord", keyWord);
+		return "f:/jsp/article/all-article.jsp";
+	}
+
+	/**
 	 * 删除博客功能
 	 * @param request
 	 * @param response

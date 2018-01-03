@@ -20,7 +20,7 @@ public class RemarkDaoTest {
 			User author = new User("C86D29E2F8C84B9EA3F5EF383FF612D8", rid, rid, rid, rid,
 					rid, rid, rid, rid, rid, rid, rid, false, i);
 			Article article = new Article("111ADC3E36A74516A340E1E30B2C5D9D", author, rid,
-					rid, rid, rid, rid, null, null, null, null);
+					rid, rid, rid, rid, null, null, null, null, 0);
 			String rcontent = "rcontent" + i;
 			Date rtime = new Date(1514014996000L);
 			Remark remark = new Remark(rid, author, article, rcontent, rtime);

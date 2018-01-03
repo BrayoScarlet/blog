@@ -16,6 +16,7 @@ public class Article {
 	private Long remarkNum = 0L;	//回复数
 	private Long readNum = 0L;		//阅读量
 	private Date atime;				//发表时间
+	private Integer verify = 0;		//审核字段, 0: 未审核 1: 通过 2: 未通过
 
 	public String getAid() {
 		return aid;
@@ -105,19 +106,26 @@ public class Article {
 		this.atime = atime;
 	}
 
+	public Integer getVerify() {
+		return verify;
+	}
+
+	public void setVerify(Integer verify) {
+		this.verify = verify;
+	}
+
 	@Override
 	public String toString() {
 		return "Article [aid=" + aid + ", author=" + author + ", atitle=" + atitle
 				+ ", type=" + type + ", acontent=" + acontent + ", classify=" + classify
 				+ ", abstractContent=" + abstractContent + ", praiseNum=" + praiseNum
 				+ ", remarkNum=" + remarkNum + ", readNum=" + readNum + ", atime=" + atime
-				+ "]";
+				+ ", verify=" + verify + "]";
 	}
 
 	public Article(String aid, User author, String atitle, String type, String acontent,
 			String classify, String abstractContent, Long praiseNum, Long remarkNum,
-			Long readNum, Date atime) {
-		super();
+			Long readNum, Date atime, Integer verify) {
 		this.aid = aid;
 		this.author = author;
 		this.atitle = atitle;
@@ -129,6 +137,7 @@ public class Article {
 		this.remarkNum = remarkNum;
 		this.readNum = readNum;
 		this.atime = atime;
+		this.verify = verify;
 	}
 
 	public Article() {
