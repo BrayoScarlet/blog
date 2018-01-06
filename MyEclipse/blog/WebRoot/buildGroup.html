@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>新建学习小组</title>
+<link href="bootstrap3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/buildGroup.css" rel="stylesheet">
+
+<script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="bootstrap3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="layer/layer.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	/*
+	功能：提交表单创建学习小组
+	*/
+	//全局变量，如果为-1，表示没有选择图片，值等于图片顺序
+	var imageclick=-1;
+	//点击first.jpg依次类推
+	function firstclick(){
+		imageclick=1;
+	}
+	
+	function secondclick(){
+		imageclick=2;
+	}
+	
+	function thirdclick(){
+		imageclick=3;
+	}
+	
+	function fourclick(){
+		imageclick=4;
+	}
+	
+	function checkandsubmit(){
+		//小组名
+	    if($("#stugroupName").val()==null || $("#stugroupName").val()==""){
+			//layer.alert('小组名输入为空');
+			layer.msg('小组名输入为空');
+	        $("#stugroupName").focus(); //焦点对准输入名字框  
+	        return;
+	    }
+		
+		//qq群号
+	    if($("#stugroupQQ").val()==null || $("#stugroupQQ").val()==""){
+			layer.msg('qq群号输入为空');
+	        $("#stugroupQQ").focus(); //焦点对准输入名字框  
+	        return;
+	    }
+		//简介
+	    if($("#stugroupIntro").val()==null || $("#stugroupIntro").val()==""){
+			layer.msg('简介输入为空');
+	        $("#stugroupIntro").focus(); //焦点对准输入名字框  
+	        return;
+	    }
+		//判断图片是否被点击
+		if(imageclick == -1){
+			layer.msg('请选择一张图片');
+			return;
+		}
+		
+		//学习小组对象
+		var studygroup = new Object();
+		//小组名
+		studygroup.stugroupName = $("#stugroupName").val();
+		//小组QQ群号
+		studygroup.qqNumber = $("#stugroupQQ").val();
+		//小组简介
+		studygroup.stugroupIntro = $("#stugroupIntro").val();
+		//小组图片存储成地址
+		if(imageclick == 1){
+			studygroup.imageUrl = $("#firstimage").children("img").attr("src");
+		}
+		else if(imageclick == 2){
+			studygroup.imageUrl = $("#secondimage").children("img").attr("src");
+		}
+		else if(imageclick == 3){
+			studygroup.imageUrl = $("#thirdimage").children("img").attr("src");
+		}
+		else if(imageclick == 4){
+			studygroup.imageUrl = $("#fourimage").children("img").attr("src");
+		}
+		//alert(studygroup.imageUrl);
+		//把填入的数据发给buildGroup.jsp处理
+		$.ajax({
+		    type: 'post',
+		    url: 'buildGroup.jsp',
+		    data: {'stugroupName': studygroup.stugroupName , 'qqNumber': studygroup.qqNumber ,'stugroupIntro':studygroup.stugroupIntro ,'imageUrl':studygroup.imageUrl},
+		    success: function (result) { //返回json结果
+		    	var res = String($.trim(result)); //这个解析很关键
+		    	if(res == "right"){
+		    		layer.msg('新增小组成功');
+		    	}else{
+		    		layer.msg('新增小组失败，请重试');
+		    	}
+		    }
+		});
+	}
+	
+	//返回studygroup.html
+	function back(){
+		 window.location.href="studygroup.jsp";
+	}
+
+</script>
+
+</head>
+
+<body>
+		<form action="#" class="form-horizontal">		
+			<div class="form-group">
+				<label class="col-sm-2 control-label">小组名称</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" 
+					id="stugroupName" placeholder="请输入名称"/>			
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">交流qq号</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" 
+					id="stugroupQQ" placeholder="请输入qq群号"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">小组简介</label>
+				<div class="col-sm-10">
+					<textarea  class="form-control" cols="20" rows="4"
+					id="stugroupIntro" placeholder="请输入小组简介"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">选择图片</label>
+				<div class="row">
+  					<div class="col-sm-2 ">
+    					<a href="#" class="thumbnail" id="firstimage" 
+    					onclick="firstclick();">
+    					  <img src="images/stugroup/first.jpg">
+    					</a>
+ 					 </div>
+ 					 <div class="col-sm-2 ">
+   						 <a href="#" class="thumbnail" id="secondimage"
+   						 onclick="secondclick();">
+   						   <img src="images/stugroup/second.jpg">
+  						 </a>
+ 					 </div>
+  					<div class="col-sm-2 ">
+    					<a href="#" class="thumbnail" id="thirdimage"
+    					onclick="thirdclick();">
+      						<img src="images/stugroup/third.jpg">
+   						</a>
+  					</div>
+  					<div class="col-sm-2 ">
+    					<a href="#" class="thumbnail" id="fourimage"
+    					onclick="fourclick();">
+      						<img src="images/stugroup/four.jpg">
+    					</a>
+  					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-10">
+					<input type="button" class="btn btn-info" onclick="checkandsubmit();" value="创建"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-10">
+					<input type="button" class="btn btn-warning" onclick="back();" value="返回"/>
+				</div>
+			</div>		
+		</form>
+</body>
+</html>

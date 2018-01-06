@@ -1,0 +1,226 @@
+@charset "utf-8";
+
+/* 右边栏 begin */
+.right-body {
+    width: 1070px;
+}
+
+/* 右边栏头部样式 */
+.right-body .article-head {
+    width: 1070px;
+    height: 100px;
+}
+
+/* 标题的样式 */
+.right-body .user-blog {
+    width: 1070px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 8px;
+    color: skyblue;
+}
+
+/* 个人简介样式 */
+/*
+.right-body .ubrief {
+    width: 800px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 14px;
+    text-align: center;
+    margin: 5px auto;
+    color: #fff;
+}
+*/
+
+
+/* 反馈盒子样式 */
+.right-body .article-box {
+    background-color: #F6F6F6;
+    height: 500px;
+}
+
+/* 每条反馈信息的盒子样式 */
+.right-body .article-box .breif-info {
+    width: 1000px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    border-bottom: 1px solid #565252;
+    box-sizing: border-box;
+}
+
+/* 反馈信息标题样式 */
+.right-body .article-box .breif-info .article-title {
+    width: 1000px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #000000;
+}
+
+/* 反馈信息简介样式 */
+.right-body .article-box .breif-info .desc {
+    height: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #444444;
+
+    /* 多行文本溢出显示省略号 */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+/* 文章简介底部样式 */
+.right-body .article-box .breif-info .bottom-father {
+    height: 20px;
+    line-height: 20px;
+    color: #797676;
+}
+
+/* 反馈类型样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .type-article {
+    float: left;
+    line-height: 20px;
+    margin-right: 15px;
+}
+*/
+
+
+/* 文章作者样式 */
+.right-body .article-box .breif-info .bottom-father .author {
+    float: left;
+    height: 20px;
+}
+
+/* 文章作者图标样式 */
+.right-body .article-box .breif-info .bottom-father .author span {
+    font-family: 'icomoon', serif;
+    font-size: 12px;
+    line-height: 20px;
+    float: left;
+    margin-right: 8px;
+}
+
+/* 文章作者链接样式 */
+.right-body .article-box .breif-info .bottom-father .author a {
+    font-size: 12px;
+    color: #3399CC;
+    line-height: 20px;
+    float: left;
+}
+
+/* 文章发表时间样式 */
+.right-body .article-box .breif-info .bottom-father .time {
+    float: left;
+    height: 20px;
+}
+
+/* 文章发表时间图标样式 */
+.right-body .article-box .breif-info .bottom-father .time span {
+    font-family: 'icomoon', serif;
+    font-size: 12px;
+    margin-left: 30px;
+    float: left;
+    line-height: 20px;
+}
+
+
+/* 文章发表时间样式 */
+.right-body .article-box .breif-info .bottom-father .time p {
+    float: left;
+    line-height: 20px;
+    margin-left: 8px;
+}
+
+/* 最新反馈阅读量样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .reading {
+    float: left;
+    height: 20px;
+}
+*/
+
+
+/* 最新文章阅读量样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .reading span {
+    font-family: 'icomoon', serif;
+    font-size: 12px;
+    margin-left: 30px;
+    float: left;
+    line-height: 20px;
+}
+*/
+
+
+/* 最新文章阅读量样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .reading p {
+    float: left;
+    line-height: 20px;
+    margin-left: 5px;
+}*/
+
+
+/* 最新文章评论量样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .remark {
+    float: left;
+    height: 20px;
+}
+*/
+
+
+/* 最新文章评论量样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .remark span {
+    font-family: 'icomoon', serif;
+    font-size: 12px;
+    margin-left: 30px;
+    float: left;
+    line-height: 20px;
+}
+*/
+
+
+/* 最新文章评论量样式 */
+/*
+.right-body .article-box .breif-info .bottom-father .remark p {
+    float: left;
+    line-height: 20px;
+    margin-left: 5px;
+}
+*/
+
+
+/* 删除链接样式 */
+.right-body .article-box .breif-info .bottom-father .delete-article {
+    font-size: 12px;
+    color: red;
+    margin-left: 10px;
+}
+
+/* 编辑链接样式 */
+.right-body .article-box .breif-info .bottom-father .edit-article {
+    font-size: 12px;
+    padding-right: 10px;
+    border-right: 1px dotted #000;
+}
+
+/* 右边栏 end */
+
+
+
+
+
+
+
+
+

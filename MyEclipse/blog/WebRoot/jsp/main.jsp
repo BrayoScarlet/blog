@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           	  <c:otherwise>
 	            <div class="hasLogin">
 	            	<!-- 点击用户名进入个人博客页面 -->
-	            	<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
+	            	<a href="<c:url value='/ArticleServlet?method=findMyArticlesByPage&curPage=1'/>">
 		    			<img src="images/head_portrait.jpg" />
 		    			<div class="username fl">${sessionScope.session_user.username }</div>
 	            	</a>
@@ -56,17 +56,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="<c:url value='/index.jsp'/>">
 					<li class="currentPage"><span></span>网站首页</li>
 				</a>
-				<a href="<c:url value='/ArticleServlet?method=findAllArticles'/>">
+				<a href="<c:url value='/ArticleServlet?method=findAllArticlesByPage&curPage=1'/>">
 					<li class="spacing2"><span></span>博客</li>
 				</a>
-				<a href="#">
+				<a href="<c:url value='/studygroup.jsp'/>">
 					<li><span></span>学习小组</li>
 				</a>
 				<a href="#">
 					<li><span></span>mooc检索</li>
 				</a>
-				<a href="#">
-					<li><span></span>关于我们</li>
+				<a href="<c:url value='/UserServlet?method=checkLogin&url=/feedbackedit.jsp'/>">
+					<li><span></span>用户反馈</li>
 				</a>
 				<a href="<c:url value='/UserServlet?method=quit'/>">
 					<li class="spacing2"><span></span>退出</li>
@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="bottom-father clearfix">
 					<div class="type-article">${article.type }</div>
 					<div class="author">
-						<span></span><a href="<c:url value='/ArticleServlet?method=findArticlesByOtherUid&uid=${article.author.uid }'/>">${article.author.username }</a>
+						<span></span><a href="<c:url value='/ArticleServlet?method=findOtherArticlesByPage&uid=${article.author.uid }&curPage=1'/>">${article.author.username }</a>
 					</div>
 					<div class="time">
 						<span></span>

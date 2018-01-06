@@ -109,4 +109,31 @@ public class UserService {
 		return userDao.findByUid(uid);
 	}
 
+	/**
+	 * 管理员登录验证业务
+	 * @param admin
+	 * @return
+	 * @throws UserException 
+	 */
+	public User adminLogin(User admin) throws UserException {
+		/*
+		 * 1，使用username查询，得到User
+		 * 2，如果user为null，抛出异常，用户不存在
+		 * 3，比较user和form的密码，若不同，抛出异常，密码错误
+		 * 4，查看用户的状态，若为false，抛出异常，尚未激活
+		 * 5，返回user
+		 */
+		User user = userDao.findByUsername(admin.getUsername());
+		if (user == null) {
+			throw new UserException("用户名不存在！");
+		}
+		if (!user.getPassword().equals(admin.getPassword())) {
+			throw new UserException("密码错误！");
+		}
+		if (user.getAdmin() == 0) {
+			throw new UserException("您不是管理员!");
+		}
+		return user;
+	}
+
 }

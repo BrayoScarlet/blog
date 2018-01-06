@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           	  <c:otherwise>
 	            <div class="hasLogin">
 	            	<!-- 点击用户名进入个人博客页面 -->
-	            	<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
+	            	<a href="<c:url value='/ArticleServlet?method=findMyArticlesByPage&curPage=1'/>">
 		    			<img src="images/head_portrait.jpg" />
 		    			<div class="username fl">${sessionScope.session_user.username }</div>
 	            	</a>
@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="<c:url value='/jsp/article/filter/write-article.jsp'/>">
 					<li class="currentPage"><span></span>发表博客</li>
 				</a>
-				<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
+				<a href="<c:url value='/ArticleServlet?method=findMyArticlesByPage&curPage=1'/>">
 					<li><span></span>我的博客</li>
 				</a>
 				<a href="<c:url value='/jsp/user/filter/personal-profile.jsp'/>">

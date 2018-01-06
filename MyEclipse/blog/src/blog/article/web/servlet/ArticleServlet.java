@@ -17,6 +17,7 @@ import blog.remark.service.RemarkService;
 import blog.user.domain.User;
 import blog.user.service.UserService;
 import blog.utils.commons.CommonUtils;
+import blog.utils.pagination.Pagination;
 import blog.utils.servlet.BaseServlet;
 
 public class ArticleServlet extends BaseServlet {
@@ -26,31 +27,101 @@ public class ArticleServlet extends BaseServlet {
 	private ReadRecordService readRecordService = new ReadRecordService();
 
 	/**
-	 * 搜索我的博客功能
+	 * 按登入者的uid查询博客, 即查询我的博客功能
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public String findMyArticlesByKeyWords(HttpServletRequest request,
+	public String findMyArticlesByPage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		/*
-		 * 1, 从session中获取user对象
-		 * 2, 从请求参数中获取关键词参数
-		 * 3, 将请求参数按空格分割
-		 * 4, 根据uid和关键词数组, 调用articleService方法, 查询相关的博客List<Article>
-		 * 5, 保存List<Article>到request域中, 保存keyWord到request域, 用于回显
+		 * 1, 从请求参数中获取当前页的值
+		 * 2, 从session域中获取user对象
+		 * 3, 按uid获取博客的记录总数
+		 * 4, 根据uid, 通过articleServive方法查询博客
+		 * 5, 将分页信息和查询结果List<Article> 保存到request域
 		 * 6, 转发到my-article.jsp
 		 */
+		long curPage = Long.parseLong(request.getParameter("curPage"));
 		User user = (User) request.getSession().getAttribute("session_user");
-		String keyWord = request.getParameter("key-word");
-		String[] keyWords = keyWord.trim().split(" +");
-		List<Article> articleList =
-				articleService.findArticlesByUidAndKeyWords(user.getUid(), keyWords);
+		long countRecord = articleService.findArticleCountRecordByUid(user.getUid());
+		Pagination pagination = new Pagination(countRecord, curPage);
+		List<Article> articleList = articleService.findArticlesByUidHasLimit(
+				user.getUid(), pagination.getQueryBegin(), pagination.getQueryLength());
 		request.setAttribute("articleList", articleList);
+		request.setAttribute("pagination", pagination);
+		return "f:/jsp/article/filter/my-article.jsp";
+	}
+
+	/**
+	 *  按关键字搜索他人博客功能
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String findOtherArticlesByKeyWordAndPage(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		long curPage = Long.parseLong(request.getParameter("curPage"));
+		String uid = request.getParameter("uid");
+		User author = userService.findByUid(uid);
+		String keyWord = request.getParameter("key-word");
+		Pagination[] pags = { new Pagination(curPage, curPage) };
+
+		List<Article> articleList =
+				articleService.findArticlesByUidAndKeyWordAndPage(uid, keyWord, pags);
+		request.setAttribute("articleList", articleList);
+		request.setAttribute("author", author);
 		request.setAttribute("keyWord", keyWord);
-		return "f:/jsp/article/all-article.jsp";
+		request.setAttribute("pagination", pags[0]);
+		return "f:/jsp/article/other-article.jsp";
+	}
+
+	/**
+	 * 按请求参数中的uid查询博客功能, 及查看他人博客
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String findOtherArticlesByPage(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1, 从请求参数中获取uid
+		 * 2, 调用userService方法查询user对象
+		 * 3, 保存到request域
+		 * 4, 调用articleService方法查询所有博客
+		 * 5, 将查询结果List<Article> 保存到request域
+		 * 6, 获取登入者user对象
+		 * 7, 判断参数中的uid与登入者的uid是否相同
+		 * 	 * 相同, 转发到my-article.jsp
+		 * 	 * 不同, 转发到other-article.jsp
+		 */
+
+		long curPage = Long.parseLong(request.getParameter("curPage"));
+		String uid = request.getParameter("uid");
+		long countRecord = articleService.findArticleCountRecordByUid(uid);
+
+		Pagination pagination = new Pagination(countRecord, curPage);
+
+		User author = userService.findByUid(uid);
+		request.setAttribute("author", author);
+
+		List<Article> articleList = articleService.findArticlesByUidHasLimit(uid,
+				pagination.getQueryBegin(), pagination.getQueryLength());
+
+		request.setAttribute("articleList", articleList);
+		request.setAttribute("pagination", pagination);
+		User user = (User) request.getSession().getAttribute("session_user");
+		if (user != null && uid.equals(user.getUid())) {
+			return "f:/jsp/article/filter/my-article.jsp";
+		}
+		return "f:/jsp/article/other-article.jsp";
 	}
 
 	/**
@@ -61,20 +132,24 @@ public class ArticleServlet extends BaseServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public String findArticlesByKeyWords(HttpServletRequest request,
+	public String findArticlesByKeyWordAndPage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		/*
-		 * 1, 从请求参数中获取关键词参数
-		 * 2, 将请求参数按空格分割
-		 * 3, 调用articleService方法, 查询相关的博客List<Article>
-		 * 4, 保存List<Article>到request域中, 保存keyWord到request域, 用于回显
+		 * 1, 从请求参数中获取关键词参数和当前页数
+		 * 2, 构造分页类数组保存一个分页类(假的)
+		 * 3, 调用articleService方法, 查询相关的博客List<Article>, 掉包分页类(真的)
+		 * 4, 保存List<Article>, keyWord, 分页信息, 到request域, 用于回显
 		 * 5, 转发到all-article.jsp
 		 */
+		long curPage = Long.parseLong(request.getParameter("curPage"));
 		String keyWord = request.getParameter("key-word");
-		String[] keyWords = keyWord.trim().split(" +");
-		List<Article> articleList = articleService.findArticlesByKeyWords(keyWords);
+		Pagination[] pags = { new Pagination(curPage, curPage) };
+
+		List<Article> articleList =
+				articleService.findArticlesByKeyWordAndPage(keyWord, pags);
 		request.setAttribute("articleList", articleList);
 		request.setAttribute("keyWord", keyWord);
+		request.setAttribute("pagination", pags[0]);
 		return "f:/jsp/article/all-article.jsp";
 	}
 
@@ -95,7 +170,7 @@ public class ArticleServlet extends BaseServlet {
 		 */
 		String aid = request.getParameter("aid");
 		articleService.deleteArticleByAid(aid);
-		return findArticlesByMyUid(request, response);
+		return findMyArticlesByPage(request, response);
 	}
 
 	/**
@@ -151,21 +226,28 @@ public class ArticleServlet extends BaseServlet {
 	}
 
 	/**
-	 * 获取所有的博客功能
+	 * 通过页数获取博客功能
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public String findAllArticles(HttpServletRequest request,
+	public String findAllArticlesByPage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		/*
-		 * 1, 通过service方法获取所有的博客内容
-		 * 2, 保存到request域, 转发到all-article.jsp
+		 * 1, 获取博客的总记录数和当前页数
+		 * 2, 构造分页类
+		 * 3, 通过service方法获取需要的博客内容
+		 * 4, 保存博客信息和分页信息到request域, 转发到all-article.jsp
 		 */
-		List<Article> articleList = articleService.findAllArticles();
+		long countRecord = articleService.findAllArticleCountRecord();
+		long curPage = Long.parseLong(request.getParameter("curPage"));
+		Pagination pagination = new Pagination(countRecord, curPage);
+		List<Article> articleList = articleService.findArticlesHasLimit(
+				pagination.getQueryBegin(), pagination.getQueryLength());
 		request.setAttribute("articleList", articleList);
+		request.setAttribute("pagination", pagination);
 		return "f:/jsp/article/all-article.jsp";
 	}
 
@@ -219,24 +301,34 @@ public class ArticleServlet extends BaseServlet {
 	}
 
 	/**
-	 * 按登入者的uid查询博客, 即查询我的博客功能
+	 * 按关键字搜索我的博客功能
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public String findArticlesByMyUid(HttpServletRequest request,
+	public String findMyArticlesByKeyWordAndPage(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		/*
-		 * 1, 从session域中获取user对象
-		 * 2, 根据uid, 通过articleServive方法查询博客
-		 * 3, 将查询结果List<Article> 保存到request域
-		 * 4, 转发到my-article.jsp
+		 * 1, 从session中获取user对象
+		 * 2, 从请求参数中获取关键词参数
+		 * 3, 将请求参数按空格分割
+		 * 4, 根据uid和关键词数组, 调用articleService方法, 查询相关的博客List<Article>
+		 * 5, 保存List<Article>到request域中, 保存keyWord到request域, 用于回显
+		 * 6, 转发到my-article.jsp
 		 */
+
+		long curPage = Long.parseLong(request.getParameter("curPage"));
 		User user = (User) request.getSession().getAttribute("session_user");
-		List<Article> articleList = articleService.findArticlesByUid(user.getUid());
+		String keyWord = request.getParameter("key-word");
+		Pagination[] pags = { new Pagination(curPage, curPage) };
+
+		List<Article> articleList = articleService
+				.findArticlesByUidAndKeyWordAndPage(user.getUid(), keyWord, pags);
 		request.setAttribute("articleList", articleList);
+		request.setAttribute("keyWord", keyWord);
+		request.setAttribute("pagination", pags[0]);
 		return "f:/jsp/article/filter/my-article.jsp";
 	}
 
@@ -258,41 +350,6 @@ public class ArticleServlet extends BaseServlet {
 		List<Article> articleList = articleService.findArticlesHasLimit(0, 3);
 		request.setAttribute("articleList", articleList);
 		return "f:/jsp/main.jsp";
-	}
-
-	/**
-	 * 按请求参数中的uid查询博客功能, 及查看他人博客
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public String findArticlesByOtherUid(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		/*
-		 * 1, 从请求参数中获取uid
-		 * 2, 调用userService方法查询user对象
-		 * 3, 保存到request域
-		 * 4, 调用articleService方法查询所有博客
-		 * 5, 将查询结果List<Article> 保存到request域
-		 * 6, 获取登入者user对象
-		 * 7, 判断参数中的uid与登入者的uid是否相同
-		 * 	 * 相同, 转发到my-article.jsp
-		 * 	 * 不同, 转发到other-article.jsp
-		 */
-
-		String uid = request.getParameter("uid");
-		User author = userService.findByUid(uid);
-		request.setAttribute("author", author);
-
-		List<Article> articleList = articleService.findArticlesByUid(uid);
-		request.setAttribute("articleList", articleList);
-		User user = (User) request.getSession().getAttribute("session_user");
-		if (user != null && uid.equals(user.getUid())) {
-			return "f:/jsp/article/filter/my-article.jsp";
-		}
-		return "f:/jsp/article/other-article.jsp";
 	}
 
 	/**

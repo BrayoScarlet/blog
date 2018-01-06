@@ -39,11 +39,6 @@ public class ArticleDaoTest {
 	}
 
 	@Test
-	public void testFindAll() {
-		articleDao.findAllArticleRecords();
-	}
-
-	@Test
 	public void testMapEquals() {
 		String[] keyWords1 = { "张三", "博客" };
 		String[] keyWords4 = { "算法" };

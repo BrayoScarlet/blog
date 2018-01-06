@@ -28,6 +28,33 @@ public class UserServlet extends BaseServlet {
 	private UserService userService = new UserService();
 
 	/**
+	 * 管理员登录验证
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String adminLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		/*
+		 * 1, 获取表单数据,
+		 * 2, 调用service方法完成验证
+		 */
+		User admin = CommonUtils.toBean(request.getParameterMap(), User.class);
+		admin.setPassword(Encryption.getMD5(admin.getPassword()));
+		try {
+			User user = userService.adminLogin(admin);
+			request.getSession().setAttribute("session_admin", user);
+			return "r:/manageFeed.jsp";
+		}
+		catch (UserException e) {
+			request.setAttribute("msg", e.getMessage());
+			return "f:/jsp/admin/adminLogin.jsp";
+		}
+	}
+
+	/**
 	 * 注册功能
 	 * @param request
 	 * @param response
@@ -191,7 +218,6 @@ public class UserServlet extends BaseServlet {
 		}
 		catch (UserException e) {
 			request.setAttribute("msg", e.getMessage());
-			request.setAttribute("form", form);
 			return "f:/jsp/user/login.jsp";
 		}
 	}
@@ -471,6 +497,12 @@ public class UserServlet extends BaseServlet {
 		return "f:/jsp/msg.jsp";
 	}
 
+	public String adminQuit(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getSession().invalidate();
+		return "r:/manageFeed.jsp";
+	}
+
 	/**
 	 * 退出功能
 	 * @param request
@@ -489,4 +521,23 @@ public class UserServlet extends BaseServlet {
 		return "r:/index.jsp";
 	}
 
+	/**
+	 * 验证用户是否已登入
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String checkLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//验证是否已登入
+		User user = (User) request.getSession().getAttribute("session_user");
+		String url = request.getParameter("url");
+		if (user == null) {
+			request.setAttribute("msg", "请您先登入");
+			return "f:/jsp/msg.jsp";
+		}
+		return "r:" + url;
+	}
 }

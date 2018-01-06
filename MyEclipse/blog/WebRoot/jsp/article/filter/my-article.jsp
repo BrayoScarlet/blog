@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           	  <c:otherwise>
 	            <div class="hasLogin">
 	            	<!-- 点击用户名进入个人博客页面 -->
-	            	<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
+	            	<a href="<c:url value='/ArticleServlet?method=findMyArticlesByPage&curPage=1'/>">
 		    			<img src="images/head_portrait.jpg" />
 		    			<div class="username fl">${sessionScope.session_user.username }</div>
 	            	</a>
@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="<c:url value='/jsp/article/filter/write-article.jsp'/>">
 					<li><span></span>发表博客</li>
 				</a>
-				<a href="<c:url value='/ArticleServlet?method=findArticlesByMyUid'/>">
+				<a href="<c:url value='/ArticleServlet?method=findMyArticlesByPage&curPage=1'/>">
 					<li class="currentPage"><span></span>我的博客</li>
 				</a>
 				<a href="<c:url value='/jsp/user/filter/personal-profile.jsp'/>">
@@ -82,7 +82,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="article-box clearfix">
 			<form action="<c:url value='/ArticleServlet'/>" method="post" class="search">
-				<input type="hidden" name="method" value="findMyArticlesByKeyWords" />
+				<input type="hidden" name="method" value="findMyArticlesByKeyWordAndPage" />
+				<input type="hidden" name="curPage" value="1" />
 				<input type="text" class="key-word" autofocus name="key-word" value="${keyWord }" placeholder="请输入关键词" /><input type="submit" class="search-btn" value="搜索" />
 			</form>
 		<c:forEach items="${articleList }" var="article">
@@ -94,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="bottom-father clearfix">
 					<div class="type-article">${article.type }</div>
 					<div class="author">
-						<span></span><a href="<c:url value='/ArticleServlet?method=findArticlesByOtherUid&uid=${article.author.uid }'/>">${article.author.username }</a>
+						<span></span><a href="<c:url value='/ArticleServlet?method=findOtherArticlesByPage&curPage=1&uid=${article.author.uid }'/>">${article.author.username }</a>
 					</div>
 					<div class="time">
 						<span></span>
@@ -106,11 +107,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="remark">
 						<span></span><p>${article.remarkNum }</p>
 					</div>
-					<a href="<c:url value='/ArticleServlet?method=deleteArticleByAid&aid=${article.aid }'/>" class="delete-article fr">删除</a>
+					<a href="<c:url value='/ArticleServlet?method=deleteArticleByAid&aid=${article.aid }&curPage=${pagination.curPage }'/>" class="delete-article fr">删除</a>
 					<a href="<c:url value='/ArticleServlet?method=editArticleByAid&aid=${article.aid }'/>" class="edit-article fr">编辑</a>
 				</div>
 			</div>
 		</c:forEach>
+		</div>
+		<div class="article-pagination">
+			<ul class="pagination">
+			    <li><a href="<c:url value='/ArticleServlet?method=findMyArticlesByKeyWordAndPage&curPage=1&key-word=${keyWord }'/>">首页</a></li>
+			    <li <c:if test="${1 == pagination.curPage}">class="disabled"</c:if> ><a href="<c:url value='/ArticleServlet?method=findMyArticlesByKeyWordAndPage&curPage=${pagination.curPage - 1 }&key-word=${keyWord }'/>">&laquo;</a></li>
+			    <c:forEach var="cur" begin="${pagination.beginPage }" end="${pagination.endPage }">
+			    <li <c:if test="${cur == pagination.curPage}">class="disabled" id="cur-page"</c:if> ><a href="<c:url value='/ArticleServlet?method=findMyArticlesByKeyWordAndPage&curPage=${cur }&key-word=${keyWord }'/>">${cur }</a></li>
+			    </c:forEach>
+			    <li <c:if test="${pagination.lastPage == pagination.curPage}">class="disabled"</c:if> ><a href="<c:url value='/ArticleServlet?method=findMyArticlesByKeyWordAndPage&curPage=${pagination.curPage + 1 }&key-word=${keyWord }'/>">&raquo;</a></li>
+			    <li><a href="<c:url value='/ArticleServlet?method=findMyArticlesByKeyWordAndPage&curPage=${pagination.lastPage }&key-word=${keyWord }'/>">尾页</a></li>
+			</ul>
 		</div>
 	</div>
   </body>

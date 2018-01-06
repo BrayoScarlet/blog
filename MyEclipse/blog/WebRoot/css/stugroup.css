@@ -1,0 +1,81 @@
+@charset "UTF-8";
+/*groupsList 展示学习小组*/
+#groupsList li{
+	float: left;
+}
+#groupsList li a{
+	display: block;
+	padding: 1px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	height: 230px;
+	width: 220.8px;
+	border: 1px solid #ebebeb;
+	box-shadow: 0px 1px 1px 0px #f1f1f1;
+	background: #fff;
+	color: #333;
+}
+#groupsList li a:hover{
+	color: #39a030;
+}
+
+#groupsList li .logo{
+	width: 200px;
+	height: 150px;
+}
+
+#groupsList li .tt{
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#groupsList li .writer{
+	/**/ 
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	margin-top:10px;
+	color: #999;
+}
+#groupsList li .pnum{
+	
+    /*
+  
+    */
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 5px 4px 18px;
+    max-width: 50px;
+    height: 20px;
+    font: 20px;
+    color: #999;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+     background: url(../images/stugroup/people.png) no-repeat;
+    background-position: 4px 3px;
+}
+/*groupsList end*/
+
+/*search 搜索框*/
+.search{
+	/*上内边距是 50px
+	右内边距是 5px
+	下内边距是 15px
+	左内边距是 20px*/
+	padding:20px 5px 15px 20px;
+	margin-left: 200px;
+
+}
+
+.search .build{
+	margin-left: 60px;
+}
+/*search end*/
+
+/*剩下中间显示部分*/
+.middle-body {
+    width: 1000px;
+    margin: 0 20px;
+}
+/*middle-body end*/
+

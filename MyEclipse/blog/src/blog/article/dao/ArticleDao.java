@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import blog.article.domain.Article;
 import blog.utils.jdbc.JdbcUtils;
@@ -36,27 +37,6 @@ public class ArticleDao {
 	}
 
 	/**
-	 * 查询所有博客记录, 
-	 * 将每一条记录放到Map中,
-	 * 将所有的Map放到List中,
-	 * 返回List<Map>
-	 * @return
-	 */
-	public List<Map<String, Object>> findAllArticleRecords() {
-		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
-		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
-				+ "abstract as abstractContent, praise_num as praiseNum, "
-				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
-				+ "where verify != 2 order by atime desc";
-		try {
-			return qr.query(sql, new MapListHandler());
-		}
-		catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
 	 * 按aid查询博客记录
 	 * 将记录放到Map中,
 	 * 返回Map
@@ -78,27 +58,6 @@ public class ArticleDao {
 	}
 
 	/**
-	 * 按uid查询所有博客记录, 
-	 * 将每一条记录放到Map中,
-	 * 将所有的Map放到List中,
-	 * 返回List<Map>
-	 * @return
-	 */
-	public List<Map<String, Object>> findArticleRecordsByUid(String uid) {
-		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
-		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
-				+ "abstract as abstractContent, praise_num as praiseNum, "
-				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
-				+ "where verify != 2 and author_uid=? order by atime desc";
-		try {
-			return qr.query(sql, new MapListHandler(), uid);
-		}
-		catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
 	 * 按限制查询文章记录,
 	 * 将每一条记录放到Map中,
 	 * 将所有的Map放到List中,
@@ -107,7 +66,7 @@ public class ArticleDao {
 	 * @param length
 	 * @return
 	 */
-	public List<Map<String, Object>> findArticleRecordsHasLimit(int begin, int length) {
+	public List<Map<String, Object>> findArticleRecordsHasLimit(long begin, long length) {
 		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
 		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
 				+ "abstract as abstractContent, praise_num as praiseNum, "
@@ -150,14 +109,43 @@ public class ArticleDao {
 	}
 
 	/**
+	 * 获取所有的博客记录数
+	 * @return
+	 */
+	public Long findAllArticleCountRecord() {
+		String sql = "select count(*) from article where verify != 2";
+		try {
+			return qr.query(sql, new ScalarHandler<Long>());
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 按uid获取所有的博客记录数
+	 * @return
+	 */
+	public long findArticleCountRecordByUid(String uid) {
+		String sql = "select count(*) from article where verify != 2 and author_uid = ?";
+		try {
+			return qr.query(sql, new ScalarHandler<Long>(), uid);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
 	 * 根据article对象更新article表中的记录
 	 * @param article
 	 */
 	public void updateArticle(Article article) {
 		String sql = "update article set atitle=?, `type`=?, acontent=?, "
-				+ "classify=?, abstract=? where aid=?";
+				+ "classify=?, abstract=?, verify=? where aid=?";
 		Object[] params = { article.getAtitle(), article.getType(), article.getAcontent(),
-				article.getClassify(), article.getAbstractContent(), article.getAid() };
+				article.getClassify(), article.getAbstractContent(), article.getVerify(),
+				article.getAid() };
 		try {
 			qr.update(sql, params);
 		}
@@ -291,6 +279,30 @@ public class ArticleDao {
 	}
 
 	/**
+	 * 按uid查询所有博客记录, 
+	 * 将每一条记录放到Map中,
+	 * 将所有的Map放到List中,
+	 * 返回List<Map>
+	 * @param length 
+	 * @param begin 
+	 * @return
+	 */
+	public List<Map<String, Object>> findArticleRecordsByUidHasLimit(String uid,
+			long begin, long length) {
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify != 2 and author_uid=? order by atime desc limit ?, ?";
+		try {
+			return qr.query(sql, new MapListHandler(), uid, begin, length);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
 	 * 根据uid和关键词数组匹配博客分类查询博客
 	 * @param keyWords
 	 * @return
@@ -350,6 +362,23 @@ public class ArticleDao {
 				+ "where verify != 2 and author_uid=? and acontent like ? order by atime desc";
 		try {
 			return qr.query(sql, new MapListHandler(), uid, matchString);
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 查找未审核博客
+	 */
+	public List<Map<String, Object>> findNotVerifyArticleRecords() {
+		//使用别名处理数据库字段名与JavaBean属性名不一致的情况
+		String sql = "select aid, author_uid as uid, atitle, `type`, acontent, classify, "
+				+ "abstract as abstractContent, praise_num as praiseNum, "
+				+ "remark_num as remarkNum, read_num as readNum, atime, verify from article "
+				+ "where verify = 0";
+		try {
+			return qr.query(sql, new MapListHandler());
 		}
 		catch (SQLException e) {
 			throw new RuntimeException(e);

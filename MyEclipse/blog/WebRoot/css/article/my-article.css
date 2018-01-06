@@ -232,6 +232,41 @@ body {
     padding-right: 10px;
     border-right: 1px dotted #000;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 分页盒子样式 */
+.right-body .article-pagination {
+    background-color: #F6F6F6;
+    text-align: center;
+}
+
+/* 分页按钮样式 */
+.right-body .article-pagination ul li a {
+    margin-left: 5px;
+    border-radius: 3px;
+}
+
+/* 当前页按钮样式 */
+.right-body .article-pagination ul #cur-page a {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+
 /* 右边栏 end */
 
 

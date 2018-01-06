@@ -43,6 +43,16 @@
     text-overflow: ellipsis;
 }
 
+/* 管理员样式 */
+.left-body .user-info .admin {
+    line-height: 50px;
+    width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: red;
+    text-align: center;
+}
+
 /* 未登入信息样式 */
 .left-body .user-info .notLogin {
     width: 190px;

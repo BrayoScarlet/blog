@@ -14,6 +14,7 @@ import blog.user.dao.UserDao;
 import blog.user.domain.User;
 import blog.utils.commons.CommonUtils;
 import blog.utils.jdbc.JdbcUtils;
+import blog.utils.pagination.Pagination;
 
 public class ArticleService {
 	private ArticleDao articleDao = new ArticleDao();
@@ -21,6 +22,22 @@ public class ArticleService {
 	private PraiseRecordDao praiseRecordDao = new PraiseRecordDao();
 	private RemarkDao remarkDao = new RemarkDao();
 	private ReadRecordDao readRecordDao = new ReadRecordDao();
+
+	/**
+	 * 查找未审核博客
+	 * @return
+	 */
+	public List<Article> findNotVerifyArticles() {
+		List<Article> articleList = new ArrayList<Article>();
+		List<Map<String, Object>> listMap = articleDao.findNotVerifyArticleRecords();
+		for (Map<String, Object> eleMap : listMap) {
+			Article article = CommonUtils.toBean(eleMap, Article.class);
+			User author = userDao.findByUid(eleMap.get("uid") + "");
+			article.setAuthor(author);
+			articleList.add(article);
+		}
+		return articleList;
+	}
 
 	/**
 	 * 添加文章业务
@@ -31,26 +48,20 @@ public class ArticleService {
 	}
 
 	/**
-	 * 获取所有文章业务
+	 * 获取所有博客的记录数
 	 * @return
 	 */
-	public List<Article> findAllArticles() {
-		/*
-		 * 1, 通过articleDao方法获取所有的文章记录, 并封装到List<Map>里返回
-		 * 2, 通过CommonUtils.toBean方法, 构造Article对象
-		 * 3, 根据map里的uid, 通过userDao方法, 获取对应的user对象
-		 * 4, 将user对象赋给对应的article对象
-		 * 5, 将所有的article对象放到list容器中, 返回
-		 */
-		List<Article> articleList = new ArrayList<Article>();
-		List<Map<String, Object>> listMap = articleDao.findAllArticleRecords();
-		for (Map<String, Object> eleMap : listMap) {
-			Article article = CommonUtils.toBean(eleMap, Article.class);
-			User author = userDao.findByUid(eleMap.get("uid") + "");
-			article.setAuthor(author);
-			articleList.add(article);
-		}
-		return articleList;
+	public Long findAllArticleCountRecord() {
+		return articleDao.findAllArticleCountRecord();
+	}
+
+	/**
+	 * 按uid获取所有博客的记录数
+	 * @param uid 
+	 * @return
+	 */
+	public long findArticleCountRecordByUid(String uid) {
+		return articleDao.findArticleCountRecordByUid(uid);
 	}
 
 	/**
@@ -74,11 +85,74 @@ public class ArticleService {
 	}
 
 	/**
-	 * 按uid查询博客的业务
+	 * 按uid和关键词数组查询博客
+	 * @param keyWords
+	 * @return
+	 */
+	public List<Article> findArticlesByUidAndKeyWordAndPage(String uid, String keyWord,
+			Pagination[] pags) {
+		/*
+		 * 首先判断keyWords中的第一个字符串是否为""(空字符串)
+		 * 		如果为"", 说明没有关键词, 直接返回findArticlesByUid()
+		 * 
+		 * 关键词匹配方法: 按标题, 按分类, 按摘要, 按内容
+		 * 1, 根据关键词数组通过articleDao方法获取文章记录, 并封装到List<Map>里返回
+		 * 2, 将所有的List合并, 并去重
+		 * 
+		 * 3, 通过CommonUtils.toBean方法, 构造Article对象
+		 * 4, 根据uid, 通过userDao方法, 获取对应的user对象
+		 * 5, 将user对象赋给对应的article对象
+		 * 6, 将所有的article对象放到list容器中, 返回
+		 */
+		if (keyWord == null || keyWord.trim().length() == 0) {
+			long countRecord = findArticleCountRecordByUid(uid);
+			//掉包分页类
+			pags[0] = new Pagination(countRecord, pags[0].getCurPage());
+
+			return findArticlesHasLimit(pags[0].getQueryBegin(),
+					pags[0].getQueryLength());
+		}
+
+		String[] keyWords = keyWord.trim().split(" +");
+
+		List<Article> articleList = new ArrayList<Article>();
+		//按标题匹配
+		List<Map<String, Object>> titleListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchTitle(uid, keyWords);
+		//按分类
+		List<Map<String, Object>> classifyListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchClassify(uid, keyWords);
+		//按摘要
+		List<Map<String, Object>> abstractListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchAbstract(uid, keyWords);
+		//按内容
+		List<Map<String, Object>> contentListMap =
+				articleDao.findArticleRecordsByUidAndKeyWordsMatchContent(uid, keyWords);
+
+		//合并List, 并去重
+		List<Map<String, Object>> listMap = mergeAndRemovalDuplicateList(titleListMap,
+				classifyListMap, abstractListMap, contentListMap);
+
+		//掉包分页类
+		pags[0] = new Pagination(listMap.size(), pags[0].getCurPage());
+		//获取当前页的博客List
+		List<Map<String, Object>> curPageListMap = getCurPageListMap(listMap, pags[0]);
+
+		for (Map<String, Object> eleMap : curPageListMap) {
+			Article article = CommonUtils.toBean(eleMap, Article.class);
+			User author = userDao.findByUid(uid);
+			article.setAuthor(author);
+			articleList.add(article);
+		}
+		return articleList;
+	}
+
+	/**
+	 * 按uid和limit信息 查询博客的业务
 	 * @param uid
 	 * @return
 	 */
-	public List<Article> findArticlesByUid(String uid) {
+	public List<Article> findArticlesByUidHasLimit(String uid, long begin, long length) {
 		/*
 		 * 1, 按uid通过articleDao方法查询出所有的博客记录Map
 		 * 2, 通过CommonUtils.toBean方法, 构造Article对象
@@ -86,7 +160,8 @@ public class ArticleService {
 		 * 4, 将user对象赋给article对象
 		 * 5, 将所有的article对象放到list容器中, 返回
 		 */
-		List<Map<String, Object>> listMap = articleDao.findArticleRecordsByUid(uid);
+		List<Map<String, Object>> listMap =
+				articleDao.findArticleRecordsByUidHasLimit(uid, begin, length);
 		List<Article> articleList = new ArrayList<Article>();
 		for (Map<String, Object> eleMap : listMap) {
 			Article article = CommonUtils.toBean(eleMap, Article.class);
@@ -101,7 +176,7 @@ public class ArticleService {
 	 * 按限制查询博客业务
 	 * @return
 	 */
-	public List<Article> findArticlesHasLimit(int begin, int length) {
+	public List<Article> findArticlesHasLimit(long begin, long length) {
 		List<Map<String, Object>> listMap =
 				articleDao.findArticleRecordsHasLimit(begin, length);
 		List<Article> articleList = new ArrayList<Article>();
@@ -163,23 +238,30 @@ public class ArticleService {
 	 * @param keyWords
 	 * @return
 	 */
-	public List<Article> findArticlesByKeyWords(String[] keyWords) {
+	public List<Article> findArticlesByKeyWordAndPage(String keyWord, Pagination[] pags) {
 		/*
-		 * 首先判断keyWords中的第一个字符串是否为""(空字符串)
-		 * 		如果为"", 说明没有关键词, 直接返回findAllArticles
+		 * 首先判断keyWord是否为null/""(空字符串)
+		 * 		如果为"", 说明没有关键词, 直接返回findArticlesHasLimit
 		 * 
 		 * 关键词匹配方法: 按标题, 按分类, 按摘要, 按内容
 		 * 1, 根据关键词数组通过articleDao方法获取文章记录, 并封装到List<Map>里返回
-		 * 2, 将所有的List合并, 并去重
+		 * 2, 将所有的List合并, 并去重, 限制其容量最大为pagination.getQueryLength()
 		 * 
 		 * 3, 通过CommonUtils.toBean方法, 构造Article对象
 		 * 4, 根据map里的uid, 通过userDao方法, 获取对应的user对象
 		 * 5, 将user对象赋给对应的article对象
 		 * 6, 将所有的article对象放到list容器中, 返回
 		 */
-		if (keyWords.length == 1 && keyWords[0].equals("")) {
-			return findAllArticles();
+		if (keyWord == null || keyWord.trim().length() == 0) {
+			long countRecord = findAllArticleCountRecord();
+			//掉包分页类
+			pags[0] = new Pagination(countRecord, pags[0].getCurPage());
+
+			return findArticlesHasLimit(pags[0].getQueryBegin(),
+					pags[0].getQueryLength());
 		}
+
+		String[] keyWords = keyWord.trim().split(" +");
 		List<Article> articleList = new ArrayList<Article>();
 		//按标题匹配
 		List<Map<String, Object>> titleListMap =
@@ -198,13 +280,34 @@ public class ArticleService {
 		List<Map<String, Object>> listMap = mergeAndRemovalDuplicateList(titleListMap,
 				classifyListMap, abstractListMap, contentListMap);
 
-		for (Map<String, Object> eleMap : listMap) {
+		//掉包分页类
+		pags[0] = new Pagination(listMap.size(), pags[0].getCurPage());
+		//获取当前页的博客List
+		List<Map<String, Object>> curPageListMap = getCurPageListMap(listMap, pags[0]);
+
+		for (Map<String, Object> eleMap : curPageListMap) {
 			Article article = CommonUtils.toBean(eleMap, Article.class);
 			User author = userDao.findByUid(eleMap.get("uid") + "");
 			article.setAuthor(author);
 			articleList.add(article);
 		}
 		return articleList;
+	}
+
+	/**
+	 * 获取当前页的ListMap
+	 * @param listMap
+	 * @param pagination
+	 * @return
+	 */
+	private List<Map<String, Object>> getCurPageListMap(List<Map<String, Object>> listMap,
+			Pagination pagination) {
+		List<Map<String, Object>> curPageListMap = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < pagination.getQueryLength(); i++) {
+			int queryBegin = Integer.parseInt(pagination.getQueryBegin() + "");
+			curPageListMap.add(listMap.get(queryBegin + i));
+		}
+		return curPageListMap;
 	}
 
 	/**
@@ -238,55 +341,6 @@ public class ArticleService {
 			}
 		}
 		return listMap;
-	}
-
-	/**
-	 * 按uid和关键词数组查询博客
-	 * @param keyWords
-	 * @return
-	 */
-	public List<Article> findArticlesByUidAndKeyWords(String uid, String[] keyWords) {
-		/*
-		 * 首先判断keyWords中的第一个字符串是否为""(空字符串)
-		 * 		如果为"", 说明没有关键词, 直接返回findArticlesByUid()
-		 * 
-		 * 关键词匹配方法: 按标题, 按分类, 按摘要, 按内容
-		 * 1, 根据关键词数组通过articleDao方法获取文章记录, 并封装到List<Map>里返回
-		 * 2, 将所有的List合并, 并去重
-		 * 
-		 * 3, 通过CommonUtils.toBean方法, 构造Article对象
-		 * 4, 根据uid, 通过userDao方法, 获取对应的user对象
-		 * 5, 将user对象赋给对应的article对象
-		 * 6, 将所有的article对象放到list容器中, 返回
-		 */
-		if (keyWords.length == 1 && keyWords[0].equals("")) {
-			return findAllArticles();
-		}
-		List<Article> articleList = new ArrayList<Article>();
-		//按标题匹配
-		List<Map<String, Object>> titleListMap =
-				articleDao.findArticleRecordsByUidAndKeyWordsMatchTitle(uid, keyWords);
-		//按分类
-		List<Map<String, Object>> classifyListMap =
-				articleDao.findArticleRecordsByUidAndKeyWordsMatchClassify(uid, keyWords);
-		//按摘要
-		List<Map<String, Object>> abstractListMap =
-				articleDao.findArticleRecordsByUidAndKeyWordsMatchAbstract(uid, keyWords);
-		//按内容
-		List<Map<String, Object>> contentListMap =
-				articleDao.findArticleRecordsByUidAndKeyWordsMatchContent(uid, keyWords);
-
-		//合并List, 并去重
-		List<Map<String, Object>> listMap = mergeAndRemovalDuplicateList(titleListMap,
-				classifyListMap, abstractListMap, contentListMap);
-
-		for (Map<String, Object> eleMap : listMap) {
-			Article article = CommonUtils.toBean(eleMap, Article.class);
-			User author = userDao.findByUid(uid);
-			article.setAuthor(author);
-			articleList.add(article);
-		}
-		return articleList;
 	}
 
 }
