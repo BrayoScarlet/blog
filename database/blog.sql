@@ -1,5 +1,11 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.7.19                                 */
+/* Created on:     2017/12/25 19:32:44                          */
+/*==============================================================*/
+
+
 -- 创建数据库
-CREATE DATABASE blog CHARSET utf8;
+CREATE DATABASE blog CHARSET 'utf8';
 
 USE blog;
 
@@ -26,15 +32,16 @@ CREATE TABLE `user`(
 CREATE TABLE article(
    aid                  CHAR(32) NOT NULL,
    author_uid           CHAR(32),		-- 外键, 表示博客属于谁(博主)
-   atitle               VARCHAR(20),	-- 文章标题
+   atitle               TEXT,			-- 文章标题
    `type`               VARCHAR(10),	-- 文章类型(原创, 转发, 翻译)
    acontent             TEXT,			-- 文章内容
    classify             VARCHAR(10),	-- 文章分类
    abstract             TEXT,			-- 文章摘要
-   apraise_num          BIGINT DEFAULT 0,	-- 点赞数
+   praise_num           BIGINT DEFAULT 0,	-- 点赞数
    remark_num           BIGINT DEFAULT 0,	-- 回复数
    read_num				BIGINT DEFAULT 0,	-- 阅读量
-   atime                TIMESTAMP,			-- 发表时间
+   atime                DATETIME,			-- 发表时间
+   verify				INT DEFAULT 0,		-- 审核字段 0: 未审核 1: 通过 2: 未通过
    PRIMARY KEY (aid)
 );
 -- 创建一个指向user的外键
@@ -43,15 +50,13 @@ ADD CONSTRAINT FK_user_article
 FOREIGN KEY (author_uid) 
 REFERENCES `user` (uid);
 
-
 -- 创建回复表
 CREATE TABLE remark (
    rid                  CHAR(32) NOT NULL,
    author_uid           CHAR(32),			-- 外键, 回复的人
    article_returned_aid CHAR(32),			-- 外键, 将回复的文章
    rcontent             TEXT,				-- 回复的内容
-   rtime                TIMESTAMP,			-- 回复的时间
-   rpraise_num          BIGINT DEFAULT 0,	-- 点赞量
+   rtime                DATETIME,			-- 回复的时间
    PRIMARY KEY (rid)
 );
 -- 创建一个指向article的外键
@@ -63,7 +68,7 @@ REFERENCES article (aid);
 ALTER TABLE remark 
 ADD CONSTRAINT FK_user_remark 
 FOREIGN KEY (author_uid) 
-REFERENCES USER (uid);
+REFERENCES `user` (uid);
 
 -- 创建一个触发器, 当向remark表插入一条数据之后, article表中对应的记录的remark_num自增1
 DELIMITER $$
@@ -94,42 +99,95 @@ DELIMITER ;
 -- 创建阅读记录表
 CREATE TABLE read_record
 (
-   record_uid           CHAR(32) NOT NULL,	-- 阅读的人
-   record_aid           CHAR(32) NOT NULL,	-- 被阅读的文章
-   PRIMARY KEY (record_uid, record_aid)
+   read_uid           CHAR(32) NOT NULL,	-- 阅读的人
+   read_aid           CHAR(32) NOT NULL,	-- 被阅读的文章
+   PRIMARY KEY (read_uid, read_aid)
 );
 -- 创建一个指向article的外键
 ALTER TABLE read_record 
 ADD CONSTRAINT FK_article_reader 
-FOREIGN KEY (record_aid) 
+FOREIGN KEY (read_aid) 
 REFERENCES article (aid);
 -- 创建一个指向user的外键
 ALTER TABLE read_record
 ADD CONSTRAINT FK_user_reader 
-FOREIGN KEY (record_uid) 
-REFERENCES USER (uid);
+FOREIGN KEY (read_uid) 
+REFERENCES `user` (uid);
 
 
+-- 创建点赞记录表
+CREATE TABLE praise_record
+(
+   praise_uid           CHAR(32) NOT NULL,	-- 点赞的人
+   praise_aid           CHAR(32) NOT NULL,	-- 被点赞的文章
+   PRIMARY KEY (praise_uid, praise_aid)
+);
+-- 创建一个指向article的外键
+ALTER TABLE praise_record 
+ADD CONSTRAINT FK_article_praise 
+FOREIGN KEY (praise_aid) 
+REFERENCES article (aid);
+-- 创建一个指向user的外键
+ALTER TABLE praise_record
+ADD CONSTRAINT FK_user_praise 
+FOREIGN KEY (praise_uid) 
+REFERENCES `user` (uid);
 
+-- 创建一个触发器, 当向praise_record表插入一条数据之后, article表中对应的记录的praise_num自增1
+DELIMITER $$
 
-DROP TABLE reader;
+CREATE
+    /*[DEFINER = { user | CURRENT_USER }]*/
+    TRIGGER `blog`.`add_article_praise_num_trigger` AFTER INSERT
+    ON `blog`.`praise_record`
+    FOR EACH ROW BEGIN
+		UPDATE article SET praise_num = praise_num + 1 WHERE aid = new.praise_aid;
+    END$$
 
-DELETE FROM remark;
+DELIMITER ;
 
-UPDATE article SET remark_num = 0;
+-- 创建一个触发器, 当praise_record表删除一条数据之后, article表中对应的记录的praise_num自减1
+DELIMITER $$
 
-SELECT * FROM article ORDER BY atime DESC LIMIT 0, 3;
+CREATE
+    /*[DEFINER = { user | CURRENT_USER }]*/
+    TRIGGER `blog`.`minus_article_praise_num_trigger` AFTER DELETE
+    ON `blog`.`praise_record`
+    FOR EACH ROW BEGIN
+		UPDATE article SET praise_num = praise_num - 1 WHERE aid = old.praise_aid;
+    END$$
 
-INSERT INTO read_record VALUES('601D6287BFC041CD8E36D7C7FDDCD8D1', 'F97CC7B9B9634F6085EC43687A91D7DD');
+DELIMITER ;
 
+/******************************************************/
 
+-- 创建学习小组信息表
+CREATE TABLE StuGroupInfo(
+	stugroupId 		VARCHAR(32),		-- 主键
+	memberNum 		INT,				-- 小组人数
+	stugroupName 	VARCHAR(254),	-- 小组名字
+	stugroupIntro	VARCHAR(254),	-- 小组简介
+	leadId 			VARCHAR(32),			-- 创建人userId
+	qqNumber 		VARCHAR(32),		-- 小组qq号
+	buildDate		DATETIME,		-- 创建日期
+	imageUrl		VARCHAR(254),	-- 图片链接
+	PRIMARY KEY(stugroupId)
+);
 
+-- 创建小组成员信息表
+CREATE TABLE MemberInfo(
+	stugroupId 		VARCHAR(32),		-- 主键
+	userId 			VARCHAR(32),
+	PRIMARY KEY(stugroupId ,userId)
+);
 
-
-
-
-
-
-
-
-
+-- 创建用户反馈信息表
+CREATE TABLE FeedBackInfo(
+	fbId 		VARCHAR(32),	-- 主键
+	fbTitle 	VARCHAR(254),	-- 标题
+	fbContent 	TEXT,			-- 内容
+	fbContact 	VARCHAR(254),	-- 联系方式
+	userId 		VARCHAR(32),	-- 用户id
+	fbTime 		DATETIME,		-- 创建时间
+	PRIMARY KEY(fbId)
+);
